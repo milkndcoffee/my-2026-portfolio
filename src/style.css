@@ -115,8 +115,6 @@ body {
   left: 0;
   z-index: 1;
   transform: translateY(10px) scale(0.95);
-  /* opacity: 0.4; */
-  /* filter: blur(1px); */
   background: #c2bfbb;
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -126,8 +124,6 @@ body {
   top: 20px;
   z-index: 1;
   transform: translateY(10px) scale(0.95);
-  /* opacity: 0.4; */
-  /* filter: blur(2px); */
   background: #c2bfbb;
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -443,6 +439,7 @@ body {
   color: var(--color-subtle-text);
 }
 
+/* Special styling for Home section to make it stand out more */
 #home.section .section-content {
   text-align: center;
   width: 100%;
@@ -457,8 +454,20 @@ body {
 #home.section .section-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  margin-bottom: 1.5rem;
   color: rgba(56, 56, 55, 0.712);
+}
+#home.section .social-links-container {
+  font-size: 0; /* Removes whitespace between inline elements */
+}
+
+#home.section .social-link {
+  text-decoration: none;
+  display: inline-block;
+  padding: 0 10px;
+}
+
+#home.section .social-link img {
+  display: block;
 }
 
 .section-content {

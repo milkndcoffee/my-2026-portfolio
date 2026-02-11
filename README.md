@@ -19,3 +19,16 @@ A modern 3D interactive portfolio website built with Three.js.
 - **HTML5** - Structure
 
 ## 📁 Project Structure
+portfolio-2026/
+├── public/
+│ ├── models/ # 3D model files
+│ └── svg/ # SVG icons and graphics
+├── src/
+│ ├── experience/ # Three.js setup
+│ │ ├── world/ # 3D scene objects
+│ │ └── utils/ # Utilities and helpers
+│ ├── assets/ # Project assets
+│ └── style.css # Main stylesheet
+├── index.html # Main HTML file
+├── main.js # Application entry point
+└── README.md # This file
