@@ -17,7 +17,7 @@ body {
   cursor:
     url("/png/cursors/cursor.png") 8 8,
     url("/svg/cursors/cursor.svg") 8 8,
-    /* PNG fallback */ auto;
+    auto;
 }
 
 a.nav-item,
@@ -32,77 +32,55 @@ button,
     url("/png/cursors/cursor-active2.png") 8 8,
     pointer !important;
 }
-/* Add this at the VERY END of your CSS file */
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  /* Light Theme */
-  --color-background-light: #f5f5f5;
-  --color-container-bg-light: #e0dcd8;
-  --color-container-border-light: #bbbaba;
-  --color-section-bg-light: #ece9e6;
-  --color-section-border-light: #efede9;
-  --color-text-light: #333333;
-  --color-primary-light: #4a6fa5;
-  --color-secondary-light: #6d98ba;
-  --color-accent-light: #ff6b6b;
+  /* Light Theme (Active) */
+  --color-background: #f5f5f5;
+  --color-text: #333333;
+  --color-primary: #4a6fa5;
+  --color-secondary: #6d98ba;
+  --color-accent: #ff6b6b;
 
-  /* Dark Theme */
+  /* Container Colors */
+  --color-container-bg: #e0dcd8;
+  --color-container-border: #bbbaba;
+  --color-section-bg: #ece9e6;
+  --color-section-border: #efede9;
+
+  /* Navigation */
+  --nav-bg: rgba(255, 255, 255, 0.1);
+  --nav-border: rgba(255, 255, 255, 0.2);
+  --nav-shadow: 0 4px 30px rgba(136, 131, 131, 0.733);
+  --nav-shadow-color: rgba(175, 172, 172, 0.842);
+
+  /* Icon Sizes */
+  --nav-icon-size: 80px;
+  --nav-icon-size-mobile: 35px;
+  --social-icon-size: 50px;
+  --social-icon-size-mobile: 35px;
+
+  /* TODO: Add Dark Theme Variables
   --color-background-dark: #575757;
   --color-text-dark: #ffffff;
   --color-primary-dark: #5d8cc7;
   --color-secondary-dark: #8ab4d8;
   --color-accent-dark: #ff8e8e;
-
-  /* Navigation */
-  --nav-bg-light: rgba(255, 255, 255, 0.1);
   --nav-bg-dark: rgba(0, 0, 0, 0.3);
-  --nav-border-light: rgba(255, 255, 255, 0.2);
-  --nav-border-dark: rgba(255, 255, 255, 0.1);
-  --nav-shadow: 0 4px 30px rgba(136, 131, 131, 0.733);
-  --nav-shadow-color: rgba(175, 172, 172, 0.842);
-  --nav-item-padding: 12px 20px;
-  --nav-icon-size: 80px;
-  /* --nav-icon-size-tablet: 50px; */
-  --nav-icon-size-mobile: 35px;
-  --social-icon-size: 50px;
-  /* --social-icon-size-tablet: 40px; */
-  --social-icon-size-mobile: 35px;
+  --nav-border-dark: rgba(0, 0, 0, 0.1);
+  */
 }
 
-/* ===== THEME CLASSES ===== */
-.light-theme {
-  --color-background: var(--color-background-light);
-  --color-text: var(--color-text-light);
-  --color-primary: var(--color-primary-light);
-  --color-secondary: var(--color-secondary-light);
-  --color-accent: var(--color-accent-light);
-  --nav-bg: var(--nav-bg-light);
-  --nav-border: var(--nav-border-light);
-}
-
-.dark-theme {
-  --color-background: var(--color-background-dark);
-  --color-text: var(--color-text-dark);
-  --color-primary: var(--color-primary-dark);
-  --color-secondary: var(--color-secondary-dark);
-  --color-accent: var(--color-accent-dark);
-  --nav-bg: var(--nav-bg-dark);
-  --nav-border: var(--nav-border-dark);
-}
-
-/* ===== NAVBAR STYLES ===== */
-/* Navbar Base */
+/* ===== NAVBAR ===== */
 .navbar {
-  overflow: visible;
   position: fixed;
   top: 20px;
   left: 20px;
   z-index: 1000;
   font-family: "Inter", sans-serif;
+  overflow: visible;
 }
 
-/* Navbar Cards Container */
 .navbar-cards-container {
   position: relative;
   min-width: 400px;
@@ -111,70 +89,76 @@ button,
   perspective: 1000px;
 }
 
-/* Navbar Card Base */
+/* Navbar Cards */
 .navbar-card {
   position: absolute;
   width: 100%;
   height: 120px;
-  background: var(--color-container-bg-light);
-  backdrop-filter: blur(10px);
-  border: 2px solid var(--color-container-border-light);
+  background: var(--color-container-bg);
+  border: 2px solid var(--color-container-border);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
-/* Main Navbar Card (Default: Front) */
-.navbar-main {
-  top: 0;
-  left: 0;
-  z-index: 2;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  filter: blur(0);
-  overflow: visible;
-}
-
-/* Secondary Navbar Card (Default: Behind) */
-.navbar-secondary {
-  top: 20px;
-  left: 0;
-  z-index: 1;
-  overflow: visible;
-  transform: translateY(10px) scale(0.95);
-  background: #c2bfbb;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Shuffled State - Cards Swap */
-.navbar-cards-container.shuffled .navbar-main {
-  top: 20px;
-  z-index: 1;
-  transform: translateY(10px) scale(0.95);
-  background: #c2bfbb;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.navbar-cards-container.shuffled .navbar-secondary {
-  top: 0;
-  z-index: 2;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  filter: blur(0);
-  background: var(--color-container-bg-light);
-  border-color: var(--color-container-border-light);
-}
-
-/* Card Content */
 .navbar-card-content {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   padding: 20px;
-  margin-top: 0.4rem;
   padding-bottom: 35px;
+  margin-top: 0.4rem;
+}
+
+/* Card States - Front/Back System */
+.navbar-main,
+.navbar-secondary {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Default: Main navbar is front */
+.navbar-main {
+  top: 0;
+  z-index: 2;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  background: var(--color-container-bg);
+  border-color: var(--color-container-border);
+  pointer-events: auto;
+}
+
+.navbar-secondary {
+  top: 20px;
+  z-index: 1;
+  transform: translateY(10px) scale(0.95);
+  background: #c2bfbb;
+  border-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+/* When navbar is front */
+.navbar-main.front,
+.navbar-secondary.front {
+  top: 0;
+  z-index: 2;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  background: var(--color-container-bg);
+  border-color: var(--color-container-border);
+  pointer-events: auto;
+}
+
+/* When navbar is behind */
+.navbar-main:not(.front),
+.navbar-secondary:not(.front) {
+  top: 20px;
+  z-index: 1;
+  transform: translateY(10px) scale(0.95);
+  background: #c2bfbb;
+  border-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
 }
 
 /* Navigation Items */
@@ -184,22 +168,15 @@ button,
   align-items: center;
   text-decoration: none;
   color: var(--color-text);
-  padding: 12px 12px 12px 12px;
+  padding: 12px;
+  margin: 0 0.1rem;
   border-radius: 15px;
   transition: all 0.3s ease;
   position: relative;
-  /* background: rgba(61, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1); */
-  margin: 0 0.1rem;
-  /* min-width: 72px; */
 }
 
 .nav-item:hover {
-  z-index: 3;
   filter: drop-shadow(0 25px 10px var(--nav-shadow-color));
-  /* background-position: bottom; */
-  /* background: rgba(61, 0, 0, 0.05); */
-  transform: translateY(-8px) perspective(3cm) rotateX(-15deg);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -210,11 +187,10 @@ button,
 }
 
 .nav-item.active:hover {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   opacity: 0.9;
 }
 
-/* Icons */
 .nav-icon {
   width: var(--nav-icon-size);
   height: var(--nav-icon-size);
@@ -227,10 +203,10 @@ button,
 }
 
 .nav-item:hover .nav-icon {
-  transform: scale(1.1);
+  z-index: 3;
+  transform: translateY(-8px) perspective(3cm) rotateX(-15deg) scale(1.15);
 }
 
-/* Text */
 .nav-text {
   font-size: 12px;
   font-weight: 500;
@@ -245,8 +221,8 @@ button,
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--color-container-bg-light);
-  border: 2px solid var(--color-container-border-light);
+  background: var(--color-container-bg);
+  border: 2px solid var(--color-container-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -269,12 +245,12 @@ button,
   transition: transform 0.3s ease;
 }
 
-/* Rotate shuffle icon when shuffled */
-.navbar-cards-container.shuffled .shuffle-button {
+/* Rotate shuffle icon when secondary navbar is front */
+.navbar-secondary.front ~ .shuffle-button {
   transform: rotate(180deg);
 }
 
-.navbar-cards-container.shuffled .shuffle-button:hover {
+.navbar-secondary.front ~ .shuffle-button:hover {
   transform: rotate(270deg) scale(1.1);
 }
 
@@ -334,7 +310,7 @@ button,
   bottom: 0;
 }
 
-/* ===== EXPERIENCE & 3D CANVAS ===== */
+/* ===== 3D CANVAS ===== */
 .experience {
   position: fixed;
   width: 100vw;
@@ -355,17 +331,9 @@ button,
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  padding-top: 100vh; /* Make room for the fixed canvas */
+  padding-top: 100vh;
 }
 
-.page-wrapper {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Left Content Area */
 .left-content {
   position: relative;
   z-index: 10;
@@ -374,49 +342,6 @@ button,
   margin-right: auto;
   padding: 20px 40px;
   pointer-events: auto;
-}
-
-/* ===== HERO SECTION ===== */
-.hero {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.hero-content {
-  max-width: 80vw;
-  padding: 20px;
-}
-
-.hero-title {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--color-text);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.hero-subtitle {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--color-text);
-  opacity: 0.9;
-  margin-bottom: 2rem;
-}
-
-.hero-scroll-indicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: bounce 2s infinite;
 }
 
 /* ===== SECTIONS ===== */
@@ -435,21 +360,22 @@ button,
   color: var(--color-text);
 }
 
-.section p {
-  font-size: 1.2rem;
-  color: var(--color-subtle-text);
-}
-
-/* ==== HOME SECTION ==== */
-#home.section .section-content {
+.section-content {
   text-align: center;
   width: 100%;
   margin: 0 auto;
   padding: 40px;
+  background: var(--color-section-bg);
+  border: 8px solid var(--color-section-border);
+  box-shadow: #8f8f8fb2 0px 4px 30px;
+  border-radius: 20px;
+}
+
+/* Home Section */
+#home.section .section-content {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   box-shadow: none;
-  border-radius: 20px;
 }
 
 #home.section .section-content p {
@@ -457,8 +383,9 @@ button,
   line-height: 1.8;
   color: rgba(56, 56, 55, 0.712);
 }
+
 #home.section .social-links-container {
-  font-size: 0; /* Removes whitespace between inline elements */
+  font-size: 0;
 }
 
 #home.section .social-link {
@@ -476,7 +403,7 @@ button,
   height: var(--social-icon-size);
 }
 
-/* ===== ABOUT SECTION ===== */
+/* About Section */
 .about-content {
   text-align: left;
   max-width: 900px;
@@ -531,7 +458,7 @@ button,
   left: 0;
 }
 
-/* ===== EXPERIENCE SECTION ===== */
+/* Experience Section */
 .timeline {
   position: relative;
   max-width: 900px;
@@ -599,7 +526,7 @@ button,
   left: 0;
 }
 
-/* ===== PROJECTS SECTION ===== */
+/* Projects Section */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -686,103 +613,8 @@ button,
   border-bottom-color: var(--color-primary);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .timeline-item {
-    padding: 20px;
-  }
-  
-  .timeline-item:hover {
-    transform: translateX(5px);
-  }
-}
-
-@media (max-width: 480px) {
-  .project-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .skill-category {
-    padding: 20px;
-  }
-}
-
-.section-content {
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-  padding: 40px;
-  background: var(--color-section-bg-light);
-  border: 8px solid var(--color-section-border-light);
-  box-shadow: #8f8f8fb2 0px 4px 30px;
-  border-radius: 20px;
-}
-
-.section-title {
-  font-size: 3rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: var(--color-primary);
-}
-
-.section-text {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
-}
-
-.section-text a {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-.section-text a:hover {
-  opacity: 0.8;
-}
-
-/* Section Margins */
-.section-margin {
-  height: 100vh;
-  pointer-events: none;
-}
-
-/* Lists */
-.section-list {
-  list-style: none;
-  margin: 1.5rem 0;
-}
-
-.section-list li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: var(--color-text);
-}
-
-.section-list li:before {
-  content: "•";
-  color: var(--color-accent);
-  position: absolute;
-  left: 0;
-  font-size: 1.5rem;
-}
-
-/* Additional Pages */
+/* Resume & Archive Sections */
 #resume,
-#blog,
-#skills,
 #archive {
   min-height: 100vh;
   padding: 120px 20px;
@@ -792,8 +624,6 @@ button,
 }
 
 #resume .section-content,
-#blog .section-content,
-#skills .section-content,
 #archive .section-content {
   text-align: center;
   background: rgba(255, 255, 255, 0.1);
@@ -836,11 +666,6 @@ button,
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.dark-theme .loading-content {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/* Loading Spinner */
 .loading-spinner {
   width: 60px;
   height: 60px;
@@ -851,7 +676,6 @@ button,
   animation: spin 1s linear infinite;
 }
 
-/* Loading Text */
 .loading-text {
   font-size: 1.5rem;
   color: var(--color-text);
@@ -859,7 +683,6 @@ button,
   font-weight: 500;
 }
 
-/* Progress Bar */
 .loading-progress {
   width: 100%;
   background: rgba(255, 255, 255, 0.1);
@@ -882,6 +705,56 @@ button,
   color: var(--color-text);
   opacity: 0.7;
   font-family: monospace;
+}
+
+/* ===== CRT EFFECT ===== */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+  opacity: 1;
+  animation: scanline 10s linear infinite;
+}
+
+.crt-overlay::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size:
+    100% 3px,
+    3px 100%;
+  z-index: 2;
+}
+
+.crt-overlay::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -922,60 +795,13 @@ button,
   }
 }
 
-/* Card hover effects */
-.navbar-card:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Ripple effect for nav items */
-.nav-item::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: translate(-50%, -50%);
-  transition:
-    width 0.6s,
-    height 0.6s;
-  z-index: -1;
-}
-
-.nav-item:active::before {
-  width: 200px;
-  height: 200px;
-}
-
-/* ===== DARK THEME OVERRIDES ===== */
-.dark-theme .navbar-card {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .navbar-main {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.dark-theme .navbar-secondary {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.dark-theme .shuffle-button {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .nav-item {
-  background: rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-.dark-theme .nav-item.main-home {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -1038,18 +864,10 @@ button,
     margin: 5px;
   }
 
-  /* Hero */
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.2rem;
-  }
-
   /* Sections */
   .section {
     padding: 60px 0;
+    max-width: 80vw;
   }
 
   .section-content {
@@ -1057,12 +875,24 @@ button,
     margin: 0 20px;
   }
 
-  .section-title {
-    font-size: 2rem;
+  .section h1 {
+    font-size: 2.5rem;
   }
 
-  .section-text {
-    font-size: 1rem;
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-item {
+    padding: 20px;
+  }
+
+  .timeline-item:hover {
+    transform: translateX(5px);
   }
 
   /* Loading Screen */
@@ -1121,13 +951,11 @@ button,
 
   .nav-text {
     font-size: 10px;
-  }
-
-  .nav-item.main-home .nav-icon {
-    font-size: 18px;
+    display: none;
   }
 
   .nav-item.main-home .nav-text {
+    display: block;
     font-size: 14px;
   }
 
@@ -1147,80 +975,69 @@ button,
     right: 20px;
   }
 
-  /* Hide text on very small screens */
-  .nav-text {
-    display: none;
-  }
-
-  .nav-item.main-home .nav-text {
-    display: block;
-  }
-
-  /* Hero */
-  .hero-title {
+  /* Sections */
+  .section h1 {
     font-size: 2rem;
   }
-}
 
-/* CRT Effect Overlay to make it look more like a wii application*/
-.crt-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: overlay;
-  opacity: 1;
-}
-
-.crt-overlay::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background:
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(
-      90deg,
-      rgba(255, 0, 0, 0.06),
-      rgba(0, 255, 0, 0.02),
-      rgba(0, 0, 255, 0.06)
-    );
-  background-size:
-    100% 3px,
-    3px 100%;
-  z-index: 2;
-}
-
-.crt-overlay::after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(18, 16, 16, 0.1);
-  opacity: 1;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* CRT scanline animation */
-@keyframes scanline {
-  0% {
-    background-position: 0 0;
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
-  100% {
-    background-position: 0 100vh;
+
+  .skill-category {
+    padding: 20px;
+  }
+
+  #home.section .social-icon {
+    width: var(--social-icon-size-mobile);
+    height: var(--social-icon-size-mobile);
   }
 }
 
-.crt-overlay {
-  animation: scanline 10s linear infinite;
+/* TODO: Dark Theme Implementation
+   Add these classes when ready:
+   
+.dark-theme {
+  --color-background: var(--color-background-dark);
+  --color-text: var(--color-text-dark);
+  --color-primary: var(--color-primary-dark);
+  --color-secondary: var(--color-secondary-dark);
+  --color-accent: var(--color-accent-dark);
+  --nav-bg: var(--nav-bg-dark);
+  --nav-border: var(--nav-border-dark);
 }
+
+.dark-theme .navbar-card,
+.dark-theme .navbar-main,
+.dark-theme .navbar-secondary.front {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .navbar-secondary,
+.dark-theme .navbar-main:not(.front) {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .shuffle-button {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .nav-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .nav-item.main-home {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .loading-content {
+  background: rgba(0, 0, 0, 0.3);
+}
+*/

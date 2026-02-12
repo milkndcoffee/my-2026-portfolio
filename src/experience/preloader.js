@@ -113,7 +113,7 @@ export default class Preloader extends EventEmitter {
   }
 
   setAssets() {
-    // Get references to your 3D object
+    // Get references to 3D object
     if (this.world.object3D) {
       this.object = this.world.object3D.actualObject;
       console.log("Assets set for preloader");
@@ -141,7 +141,6 @@ export default class Preloader extends EventEmitter {
 
     // Play your model intro animation
     if (this.object) {
-      // Example: Scale up from 0
       GSAP.from(this.object.scale, {
         x: 0,
         y: 0,

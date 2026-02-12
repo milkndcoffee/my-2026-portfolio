@@ -2,7 +2,6 @@ import "./style.css";
 import Navigation from "./experience/navigation.js";
 import RollingBackground from "./rolling-background.js";
 
-// Define variable
 let rollingBackground;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Store for debugging
   window.navigation = navigation;
 
-  // THEN load experience
+  // Load experience
   import("./experience/experience.js").then(({ default: Experience }) => {
     console.log("Experience dynamically imported");
     const canvas = document.querySelector(".experience-canvas");

@@ -1,6 +1,8 @@
 // src/experience/navigation.js
 export default class Navigation {
   constructor() {
+    this.navbarMain = document.querySelector(".navbar-main");
+    this.navbarSecondary = document.querySelector(".navbar-secondary");
     this.navItems = document.querySelectorAll(".nav-item");
     this.primaryNavItems = document.querySelectorAll(".navbar-main .nav-item");
     this.secondaryNavItems = document.querySelectorAll(
@@ -10,6 +12,12 @@ export default class Navigation {
     this.cardsContainer = document.querySelector(".navbar-cards-container");
     this.shuffleButton = document.getElementById("shuffleNav");
     this.isShuffled = false;
+    this.currentSection = null;
+
+    this.sectionOwnership = {
+      main: ["home", "about", "projects", "experience", "contact"],
+      secondary: ["resume", "archive"],
+    };
 
     this.init();
     this.handleResize();
@@ -22,16 +30,9 @@ export default class Navigation {
       item.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Only process clicks if the navbar card is active (in front)
-        const parentCard = item.closest(".navbar-main, .navbar-secondary");
-        const isCardActive = parentCard.classList.contains("navbar-main")
-          ? !this.isShuffled
-          : this.isShuffled;
-
-        if (isCardActive) {
-          this.setActiveItem(item);
-          this.scrollToSection(item.dataset.section);
-        }
+        // ALWAYS allow clicking on any nav item
+        // The click itself will trigger scroll which then updates the navbar
+        this.scrollToSection(item.dataset.section);
       });
     });
 
@@ -71,65 +72,55 @@ export default class Navigation {
       }
     });
 
-    // Set initial pointer events
+    // Set initial state
     this.updatePointerEvents();
+
+    // Find initial section on page load
+    setTimeout(() => this.updateActiveOnScroll(), 100);
   }
 
   toggleShuffle(animate = true) {
-    this.isShuffled = !this.isShuffled;
+    const isSecondaryFront = this.navbarSecondary.classList.contains("front");
 
-    if (animate) {
-      if (this.isShuffled) {
-        this.cardsContainer.classList.add("shuffled");
-        console.log("Secondary navbar card activated");
-      } else {
-        this.cardsContainer.classList.remove("shuffled");
-        console.log("Main navbar card activated");
-      }
+    if (isSecondaryFront) {
+      // Secondary is front, bring main to front
+      this.setFrontNavbar("main");
     } else {
-      // For instant toggle without animation
-      this.cardsContainer.style.transition = "none";
-      if (this.isShuffled) {
-        this.cardsContainer.classList.add("shuffled");
-      } else {
-        this.cardsContainer.classList.remove("shuffled");
-      }
-      setTimeout(() => {
-        this.cardsContainer.style.transition = "";
-      }, 50);
+      // Main is front, bring secondary to front
+      this.setFrontNavbar("secondary");
     }
 
-    // Update pointer events for interactivity
-    this.updatePointerEvents();
-
-    // Animate shuffle button
     this.animateShuffleButton();
+  }
+  setFrontNavbar(navbarName) {
+    // Remove front class from both
+    this.navbarMain.classList.remove("front");
+    this.navbarSecondary.classList.remove("front");
+
+    // Add front class to the specified navbar
+    if (navbarName === "main") {
+      this.navbarMain.classList.add("front");
+    } else {
+      this.navbarSecondary.classList.add("front");
+    }
+
+    // Update pointer events
+    this.updatePointerEvents();
   }
 
   updatePointerEvents() {
-    if (this.isShuffled) {
-      // Secondary nav items are interactive
-      this.secondaryNavItems.forEach((item) => {
-        item.style.pointerEvents = "auto";
-        item.style.cursor = "pointer";
-      });
-      // Primary nav items are not interactive
-      this.primaryNavItems.forEach((item) => {
-        item.style.pointerEvents = "none";
-        item.style.cursor = "default";
-      });
-    } else {
-      // Primary nav items are interactive
-      this.primaryNavItems.forEach((item) => {
-        item.style.pointerEvents = "auto";
-        item.style.cursor = "pointer";
-      });
-      // Secondary nav items are not interactive
-      this.secondaryNavItems.forEach((item) => {
-        item.style.pointerEvents = "none";
-        item.style.cursor = "default";
-      });
-    }
+    const isMainFront = this.navbarMain.classList.contains("front");
+    const isSecondaryFront = this.navbarSecondary.classList.contains("front");
+
+    this.primaryNavItems.forEach((item) => {
+      item.style.pointerEvents = isMainFront ? "auto" : "none";
+      item.style.cursor = isMainFront ? "pointer" : "default";
+    });
+
+    this.secondaryNavItems.forEach((item) => {
+      item.style.pointerEvents = isSecondaryFront ? "auto" : "none";
+      item.style.cursor = isSecondaryFront ? "pointer" : "default";
+    });
   }
 
   animateShuffleButton() {
@@ -141,19 +132,6 @@ export default class Navigation {
     setTimeout(() => {
       this.shuffleButton.style.animation = "";
     }, 500);
-  }
-
-  setActiveItem(activeItem) {
-    // Remove active class from all items in the same card
-    const parentCard = activeItem.closest(".navbar-main, .navbar-secondary");
-    const itemsInSameCard = parentCard.querySelectorAll(".nav-item");
-
-    itemsInSameCard.forEach((item) => {
-      item.classList.remove("active");
-    });
-
-    // Add active class to clicked item
-    activeItem.classList.add("active");
   }
 
   scrollToSection(sectionId) {
@@ -217,31 +195,61 @@ export default class Navigation {
   }
 
   updateActiveOnScroll() {
-    const sections = [
-      "home",
-      "about",
-      "projects",
-      "experience",
-      "contact",
-      "resume",
-      "archive",
-    ];
     const scrollMiddle = window.scrollY + window.innerHeight / 2;
 
-    sections.forEach((sectionId) => {
-      const section = document.getElementById(sectionId);
-      if (!section) return;
+    // Find current section
+    let activeSection = null;
+    for (const [navbar, sections] of Object.entries(this.sectionOwnership)) {
+      for (const sectionId of sections) {
+        const section = document.getElementById(sectionId);
+        if (!section) continue;
 
-      const sectionTop = section.offsetTop;
-      const sectionBottom = sectionTop + section.offsetHeight;
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
 
-      if (scrollMiddle >= sectionTop && scrollMiddle < sectionBottom) {
-        // Find corresponding nav item and activate it
-        this.navItems.forEach((item) => {
-          if (item.dataset.section === sectionId) {
-            this.setActiveItem(item);
-          }
-        });
+        if (scrollMiddle >= sectionTop && scrollMiddle < sectionBottom) {
+          activeSection = sectionId;
+          break;
+        }
+      }
+      if (activeSection) break;
+    }
+
+    // If section changed, update everything
+    if (activeSection && activeSection !== this.currentSection) {
+      this.currentSection = activeSection;
+      this.syncNavbarToSection(activeSection);
+    }
+  }
+
+  syncNavbarToSection(sectionId) {
+    // Find which navbar owns this section
+    let ownerNavbar = null;
+    for (const [navbar, sections] of Object.entries(this.sectionOwnership)) {
+      if (sections.includes(sectionId)) {
+        ownerNavbar = navbar;
+        break;
+      }
+    }
+
+    if (!ownerNavbar) return;
+
+    // Bring owner navbar to front
+    this.setFrontNavbar(ownerNavbar);
+
+    // Update active item
+    this.updateActiveItem(sectionId);
+  }
+
+  updateActiveItem(sectionId) {
+    // Remove all active classes from both navbars
+    this.primaryNavItems.forEach((item) => item.classList.remove("active"));
+    this.secondaryNavItems.forEach((item) => item.classList.remove("active"));
+
+    // Find and activate the correct item
+    this.navItems.forEach((item) => {
+      if (item.dataset.section === sectionId) {
+        item.classList.add("active");
       }
     });
   }
