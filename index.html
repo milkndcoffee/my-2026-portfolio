@@ -26,22 +26,16 @@
           <div class="navbar-card-content">
             <!-- Logo/Home -->
             <a href="#" class="nav-item main-home active" data-section="home">
-              <img
-                src="/svg/icons/nav-home.svg"
-                alt="Home"
-                width="70"
-                height="70"
-              />
+              <img class="nav-icon" src="/svg/icons/nav-home.svg" alt="Home" />
               <span class="nav-text">Home</span>
             </a>
 
             <!-- About -->
             <a href="#" class="nav-item" data-section="about">
               <img
+                class="nav-icon"
                 src="/svg/icons/nav-about-me.svg"
                 alt="About Me"
-                width="70"
-                height="70"
               />
               <span class="nav-text">About</span>
             </a>
@@ -49,21 +43,28 @@
             <!-- Projects -->
             <a href="#" class="nav-item" data-section="projects">
               <img
+                class="nav-icon"
                 src="/svg/icons/nav-projects.svg"
                 alt="Projects"
-                width="70"
-                height="70"
               />
               <span class="nav-text">Projects</span>
             </a>
 
+            <!-- Experience -->
+            <a href="#" class="nav-item" data-section="experience">
+              <img
+                class="nav-icon"
+                src="/svg/icons/nav-experience.svg"
+                alt="Experience"
+              />
+              <span class="nav-text">Experience</span>
+            </a>
             <!-- Contact -->
             <a href="#" class="nav-item" data-section="contact">
               <img
+                class="nav-icon"
                 src="/svg/icons/nav-contact.svg"
                 alt="Contact"
-                width="70"
-                height="70"
               />
               <span class="nav-text">Contact</span>
             </a>
@@ -76,17 +77,20 @@
             <!-- Resume -->
             <a href="#" class="nav-item secondary-nav" data-section="resume">
               <img
+                class="nav-icon"
                 src="/svg/icons/nav-resume.svg"
                 alt="Resume"
-                width="70"
-                height="70"
               />
               <span class="nav-text">Resume</span>
             </a>
 
             <!-- Archive -->
             <a href="#" class="nav-item secondary-nav" data-section="archive">
-              <div class="nav-icon">A</div>
+              <img
+                class="nav-icon"
+                src="/svg/icons/nav-archive.svg"
+                alt="Archive"
+              />
               <span class="nav-text">Archive</span>
             </a>
           </div>
@@ -95,7 +99,7 @@
 
       <!-- Mobile Toggle -->
       <button class="nav-toggle" aria-label="Toggle navigation">
-        <span class="hamburger"></span>
+        <span class="hamburger"> TEST</span>
       </button>
     </nav>
 
@@ -122,18 +126,16 @@
                 class="social-link"
               >
                 <img
+                  class="social-icon"
                   src="/svg/logo/logo-linkedin.svg"
                   alt="LinkedIn"
-                  width="50"
-                  height="50"
                 />
-              </a>  
+              </a>
               <a href="https://www.github.com/milkndcoffee" class="social-link">
                 <img
+                  class="social-icon"
                   src="/svg/logo/logo-github.svg"
                   alt="GitHub"
-                  width="50"
-                  height="50"
                 />
               </a>
             </div>
@@ -143,32 +145,219 @@
         <section id="about" class="section">
           <div class="section-content">
             <h1>About Me</h1>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
-            <p>Information about me and stuff...</p>
+            <p class="about-text">
+              I'm a detail-oriented Computer Science graduate from Lewis
+              University with a passion for ensuring software quality and
+              creating reliable user experiences. My background spans
+              <strong>QA automation, software development, and 3D art</strong>,
+              giving me a unique perspective on building applications that are
+              both functional and visually engaging.
+            </p>
+            <div class="skills-grid">
+              <div class="skill-category">
+                <h3>Languages</h3>
+                <ul>
+                  <li>SQL (Nested Queries, Joins)</li>
+                  <li>Python</li>
+                  <li>Java</li>
+                  <li>JavaScript</li>
+                  <li>HTML/CSS</li>
+                  <li>TypeScript</li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h3>Frameworks & Tools</h3>
+                <ul>
+                  <li>Spring Framework (Core, Boot, MVC)</li>
+                  <li>Angular</li>
+                  <li>Tosca Test Automation</li>
+                  <li>Selenium</li>
+                  <li>Playwright</li>
+                  <li>JUnit, Mockito</li>
+                  <li>Git, Maven</li>
+                </ul>
+              </div>
+
+              <div class="skill-category">
+                <h3>QA & Data</h3>
+                <ul>
+                  <li>Test Automation</li>
+                  <li>Data Validation</li>
+                  <li>Quality Assurance</li>
+                  <li>UI/UX Testing</li>
+                  <li>Agile Methodologies</li>
+                  <li>MS Excel</li>
+                </ul>
+              </div>
+            </div>
+            <p class="about-text">
+              Beyond code, I'm also a 3D artist and tech enthusiast who loves
+              exploring the intersection of technology and creativity, which is
+              why I built this interactive 3D portfolio using Three.js.
+            </p>
           </div>
         </section>
-
         <section id="projects" class="section">
           <div class="section-content">
             <h1>Projects</h1>
-            <p>Recent Projects / Work</p>
+            <div class="projects-grid">
+              <!-- Portfolio 2026 - Current Project -->
+              <div class="project-card">
+                <div class="project-header">
+                  <h2>Interactive 3D Portfolio</h2>
+                  <span class="project-year">2026</span>
+                </div>
+                <p class="project-description">
+                  A fully interactive 3D portfolio website built with Three.js
+                  featuring a custom GLB character model with idle and special
+                  animations, dual-layer navigation system with shuffle toggle,
+                  and retro CRT shader effects.
+                </p>
+                <div class="project-tech">
+                  <span>Three.js</span>
+                  <span>GSAP</span>
+                  <span>JavaScript</span>
+                  <span>CSS3</span>
+                  <span>Blender</span>
+                </div>
+                <div class="project-links">
+                  <a href="#" class="project-link">Live Demo</a>
+                  <a href="#" class="project-link">GitHub</a>
+                </div>
+              </div>
+
+              <!-- FruitsnSeason - Android App -->
+              <div class="project-card">
+                <div class="project-header">
+                  <h2>FruitsnSeason</h2>
+                  <span class="project-year">2022</span>
+                </div>
+                <p class="project-description">
+                  Mobile Android application designed with California Bay Area
+                  residents in mind. Helps users discover which fruits are in
+                  season locally, find farmers markets, and access seasonal
+                  recipes. Features API integration and clean Material Design
+                  UI.
+                </p>
+                <div class="project-tech">
+                  <span>Java</span>
+                  <span>Android Studio</span>
+                  <span>XML</span>
+                  <span>REST APIs</span>
+                  <span>SQLite</span>
+                </div>
+                <div class="project-links">
+                  <a href="#" class="project-link">GitHub</a>
+                  <a href="#" class="project-link">Demo</a>
+                </div>
+              </div>
+
+              <!-- Additional Projects -->
+              <div class="project-card">
+                <div class="project-header">
+                  <h2>Title</h2>
+                  <span class="project-year">XXXX - XXXX</span>
+                </div>
+                <p class="project-description">
+                  something something
+                </p>
+                <div class="project-tech">
+                  <span>tech</span>
+                  <span>tech</span>
+                  <span>tech</span>
+                </div>
+                <div class="project-links">
+                  <a href="#" class="project-link">Related Links</a>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
+        <section id="experience" class="section">
+          <div class="section-content">
+            <h1>Experience</h1>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <h2>Consultant (QA Analyst – Tosca Automation)</h2>
+                  <h3>FDM Group @ TD Bank</h3>
+                  <span class="timeline-date">Feb 2023 – Jun 2025</span>
+                </div>
+                <ul class="timeline-details">
+                  <li>
+                    Developed, executed, and maintained UI tests using Tosca to
+                    validate software functionality, ensuring front-end
+                    reliability across releases
+                  </li>
+                  <li>
+                    Identified and escalated application defects, enhancing
+                    overall software quality
+                  </li>
+                  <li>
+                    Collaborated closely with developers to identify and resolve
+                    UI/UX defects
+                  </li>
+                  <li>
+                    Provided mentorship and knowledge transfer on Tosca
+                    automation to junior team members
+                  </li>
+                </ul>
+              </div>
 
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <h2>Mobile Android Developer Trainee</h2>
+                  <h3>Wiley Edge</h3>
+                  <span class="timeline-date">Jan 2022 – Feb 2022</span>
+                </div>
+                <ul class="timeline-details">
+                  <li>
+                    Developed Android applications using Java and Android Studio
+                  </li>
+                  <li>
+                    Utilized API calls and data management to pull and send data
+                    from databases
+                  </li>
+                  <li>
+                    Created responsive mobile layouts with XML to enhance user
+                    experience
+                  </li>
+                  <li>
+                    Collaborated with other trainees to debug and resolve
+                    development issues
+                  </li>
+                </ul>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-header">
+                  <h2>Yukon - Search Engine Evaluator</h2>
+                  <h3>RaterLabs</h3>
+                  <span class="timeline-date">Nov 2020 – Feb 2021</span>
+                </div>
+                <ul class="timeline-details">
+                  <li>
+                    Refined search engine results to improve user experience and
+                    search accuracy
+                  </li>
+                  <li>
+                    Inspected landing pages and assigned quality ratings based
+                    on location and context
+                  </li>
+                  <li>
+                    Researched website reliability and validity to promote safer
+                    search results
+                  </li>
+                  <li>
+                    Rated multiple landing pages to narrow broad search results
+                    and match user intent
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
         <section id="contact" class="section">
           <div class="section-content">
             <h1>Contact</h1>
@@ -177,31 +366,6 @@
         </section>
       </div>
     </main>
-
-    <!-- <div class="page">
-      <div class="toggle-bar"> -->
-    <!-- Theme toggle (same as original) -->
-    <!-- <button class="toggle-button">
-          <div class="toggle-circle"></div>
-        </button>
-      </div> -->
-
-    <!-- <div class="page-wrapper">
-        <section class="hero">
-          <h1 class="hero-heading">Portfolio 2026</h1>
-          <p class="hero-subheading">Adrian De Guzman</p>
-        </section>
-
-        <div class="first-move section-margin"></div>
-
-        <section class="first-section section left">
-          <h2 class="section-title">About This Model</h2>
-          <p class="section-text">Description of your 3D model goes here.</p>
-        </section> -->
-
-    <!-- Add more sections as needed -->
-    <!-- </div>
-    </div> -->
 
     <script type="module" src="/src/main.js"></script>
 

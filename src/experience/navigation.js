@@ -221,10 +221,9 @@ export default class Navigation {
       "home",
       "about",
       "projects",
+      "experience",
       "contact",
       "resume",
-      "blog",
-      "skills",
       "archive",
     ];
     const scrollMiddle = window.scrollY + window.innerHeight / 2;
