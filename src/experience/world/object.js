@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import Experience from "../experience.js";
-import GSAP from "gsap";
-import GUI from "lil-gui";
 
 export default class Object3D {
   constructor() {
@@ -9,309 +7,144 @@ export default class Object3D {
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
     this.sizes = this.experience.sizes;
+    this.camera = this.experience.camera;
+    this.renderer = this.experience.renderer;
 
     const gltfData = this.resources.items.room;
-
-    // Check if we have data
-    if (!gltfData) {
-      console.error("No GLTF data found!");
-      return;
-    }
-
-    // Check if scene exists
-    if (!gltfData.scene) {
-      console.error("GLTF data has no scene property!");
+    if (!gltfData?.scene) {
+      console.error(!gltfData ? "No GLTF data!" : "GLTF has no scene!");
       return;
     }
 
     this.actualObject = gltfData.scene;
-    console.log("✅ Using scene:", this.actualObject);
-
     this.gltf = gltfData;
+    this.hoverableMeshes = [];
+    this.actions = {};
+    this.keywords = ["cylinder"];
 
-    console.log("=== OBJECT3D READY ===");
+    console.log("=== OBJECT3D READY ===", this.actualObject);
 
+    this.init();
+  }
+
+  // ========== INITIALIZATION ==========
+  init() {
     this.setModel();
-    this.setupAnimations();
-    // this.setupDebugGUI();
-
-    // this.setupInteractions();
+    this.setupCursor();
+    setTimeout(() => this.setupAnimations(), 100);
+    setTimeout(() => this.debug(), 2000);
   }
-  // Add this method to your Object3D class
-  debugModelPosition() {
-    console.log("=== MODEL POSITION DEBUG ===");
-    console.log(
-      "Model position:",
-      this.actualObject.position.clone().toArray(),
-    );
-
-    // Calculate bounding box
-    const box = new THREE.Box3().setFromObject(this.actualObject);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-
-    console.log("Bounding box center:", center.toArray());
-    console.log("Bounding box size:", size.toArray());
-    console.log("Bounding box min:", box.min.toArray());
-    console.log("Bounding box max:", box.max.toArray());
-
-    // Add visual markers
-    this.addDebugMarkers(center);
-  }
-
-  addDebugMarkers(modelCenter) {
-    // Red sphere at world origin (0,0,0)
-    const originMarker = new THREE.Mesh(
-      new THREE.SphereGeometry(0.1, 16, 16),
-      new THREE.MeshBasicMaterial({ color: 0xff0000 }),
-    );
-    this.scene.add(originMarker);
-
-    // Green sphere at where camera is looking (0,1,0)
-    const targetMarker = new THREE.Mesh(
-      new THREE.SphereGeometry(0.1, 16, 16),
-      new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
-    );
-    targetMarker.position.set(0, 1, 0);
-    this.scene.add(targetMarker);
-
-    // Blue sphere at model's bounding box center
-    if (modelCenter) {
-      const modelCenterMarker = new THREE.Mesh(
-        new THREE.SphereGeometry(0.1, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-      );
-      modelCenterMarker.position.copy(modelCenter);
-      this.scene.add(modelCenterMarker);
-    }
-
-    // Grid helper
-    const gridHelper = new THREE.GridHelper(20, 20, 0x00ff00, 0x444444);
-    this.scene.add(gridHelper);
-
-    // Axes helper
-    const axesHelper = new THREE.AxesHelper(5);
-    this.scene.add(axesHelper);
-
-    console.log("✅ Debug markers added:");
-    console.log("  🔴 Red: World origin (0,0,0)");
-    console.log("  🟢 Green: Camera target (0,1,0)");
-    console.log("  🔵 Blue: Model center");
-  }
-  // In object.js, add this method
-  // setupDebugGUI() {
-  //   // Only create GUI if we're in development/localhost
-  //   if (
-  //     window.location.hostname === "localhost" ||
-  //     window.location.hostname === "127.0.0.1" ||
-  //     window.location.search.includes("debug")
-  //   ) {
-  //     // Give it a moment to ensure DOM is ready
-  //     setTimeout(() => {
-  //       this.gui = new GUI({ title: "Model Controls", width: 300 });
-
-  //       // Position controls
-  //       const positionFolder = this.gui.addFolder("Position");
-  //       positionFolder.add(this.actualObject.position, "x", -20, 20).name("X");
-  //       positionFolder.add(this.actualObject.position, "y", -20, 20).name("Y");
-  //       positionFolder.add(this.actualObject.position, "z", -20, 20).name("Z");
-  //       positionFolder.open();
-
-  //       // Scale controls
-  //       const scaleFolder = this.gui.addFolder("Scale");
-  //       scaleFolder
-  //         .add(this.actualObject.scale, "x", 0.001, 2)
-  //         .name("X")
-  //         .onChange((value) => {
-  //           this.actualObject.scale.set(value, value, value);
-  //         });
-  //       scaleFolder.add(this.actualObject.scale, "y", 0.001, 2).name("Y");
-  //       scaleFolder.add(this.actualObject.scale, "z", 0.001, 2).name("Z");
-  //       scaleFolder.open();
-
-  //       // Rotation controls (in degrees)
-  //       const rotationFolder = this.gui.addFolder("Rotation");
-  //       const rotationInDegrees = {
-  //         x: THREE.MathUtils.radToDeg(this.actualObject.rotation.x),
-  //         y: THREE.MathUtils.radToDeg(this.actualObject.rotation.y),
-  //         z: THREE.MathUtils.radToDeg(this.actualObject.rotation.z),
-  //       };
-
-  //       rotationFolder
-  //         .add(rotationInDegrees, "x", -180, 180)
-  //         .name("X")
-  //         .onChange((value) => {
-  //           this.actualObject.rotation.x = THREE.MathUtils.degToRad(value);
-  //         });
-  //       rotationFolder
-  //         .add(rotationInDegrees, "y", -180, 180)
-  //         .name("Y")
-  //         .onChange((value) => {
-  //           this.actualObject.rotation.y = THREE.MathUtils.degToRad(value);
-  //         });
-  //       rotationFolder
-  //         .add(rotationInDegrees, "z", -180, 180)
-  //         .name("Z")
-  //         .onChange((value) => {
-  //           this.actualObject.rotation.z = THREE.MathUtils.degToRad(value);
-  //         });
-  //       rotationFolder.open();
-
-  //       // Reset button
-  //       this.gui
-  //         .add(
-  //           {
-  //             reset: () => {
-  //               this.actualObject.position.set(0, 0, 0);
-  //               this.actualObject.scale.set(1, 1, 1);
-  //               this.actualObject.rotation.set(0, 0, 0);
-  //               positionFolder.controllers.forEach((c) => c.updateDisplay());
-  //               scaleFolder.controllers.forEach((c) => c.updateDisplay());
-  //               rotationInDegrees.x = 0;
-  //               rotationInDegrees.y = 0;
-  //               rotationInDegrees.z = 0;
-  //               rotationFolder.controllers.forEach((c) => c.updateDisplay());
-  //             },
-  //           },
-  //           "reset",
-  //         )
-  //         .name("Reset Model");
-
-  //       console.log("Debug GUI created");
-  //     }, 100);
-  //   }
-  // }
 
   setModel() {
-    console.log("Setting up model...");
-
-    // Position the model in the CENTER of the 3D world
-    // Camera will use viewOffset to shift it to the right on screen
-
-    let scaleFactor = this.sizes.width * 0.0002;
-    this.actualObject.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-    // TEMPORARY: Set position to (0,0,0) to see where the model root is
-    this.actualObject.position.set(0, 0, 0);
-    this.actualObject.rotation.set(0, 0, 0);
-    // Desktop format - model centered at (0, y, z)
-    // this.actualObject.position.x = 0; // CENTERED
-    // this.actualObject.position.y = -2;
-    // this.actualObject.position.z = 1.7;
+    // Position & scale
+    const { width } = this.sizes;
+    const scale = width * 0.0002;
+    this.actualObject.scale.set(scale, scale, scale);
     this.actualObject.position.set(-5.25, 0, 0);
 
-    // Partial Desktop Size
-    if (this.sizes.width < 1400) {
-      this.actualObject.scale.set(0.15, 0.15, 0.15);
-      this.actualObject.position.x = 0; // CENTERED
-      this.actualObject.position.y = 1;
-      this.actualObject.position.z = 9.5;
-    }
+    // Responsive adjustments
+    if (width < 1400) this.adjustPosition(0.15, 0, 1, 9.5);
+    if (width < 960) this.adjustPosition(0.15, 0, 1, 10);
+    if (width < 600) this.adjustPosition(0.12, 0, -0.5, 10);
 
-    // Tablet format
-    if (this.sizes.width < 960) {
-      this.actualObject.position.x = 0; // CENTERED
-      this.actualObject.position.y = 1;
-      this.actualObject.position.z = 10;
-    }
-
-    // Mobile format
-    if (this.sizes.width < 600) {
-      this.actualObject.scale.set(0.12, 0.12, 0.12);
-      this.actualObject.position.x = 0; // CENTERED
-      this.actualObject.position.y = -0.5;
-      this.actualObject.position.z = 10;
-    }
-
-    console.log("Model centered at:", this.actualObject.position);
-
-    this.debugModelPosition();
-
-    // Enable shadows
+    // Process meshes
     this.actualObject.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
+      if (!child.isMesh) return;
+
+      child.castShadow = child.receiveShadow = true;
+
+      if (this.isHumanModel(child)) {
+        this.hoverableMeshes.push(child);
+        console.log(`🖱️ Hoverable: ${child.name || "unnamed"}`);
       }
     });
 
     this.scene.add(this.actualObject);
-    console.log("Model added to scene!");
+    console.log(
+      `✅ Model added with ${this.hoverableMeshes.length} hoverable meshes`,
+    );
   }
 
-  /**
-   * Animations
-   */
+  adjustPosition(scale, x, y, z) {
+    this.actualObject.scale.set(scale, scale, scale);
+    this.actualObject.position.set(x, y, z);
+  }
+
+  // ========== CURSOR INTERACTION ==========
+  setupCursor() {
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.canvas = this.renderer.renderer.domElement;
+
+    const handlers = {
+      mousemove: this.onMouseMove.bind(this),
+      mouseleave: this.onMouseLeave.bind(this),
+      click: this.onClick.bind(this),
+    };
+
+    Object.entries(handlers).forEach(([event, handler]) => {
+      this.canvas.addEventListener(event, handler);
+      this[`_${event}Handler`] = handler; // Store for cleanup
+    });
+
+    console.log("✅ Cursor interaction ready");
+  }
+
+  onMouseMove(e) {
+    this.mouse.x = (e.clientX / this.sizes.width) * 2 - 1;
+    this.mouse.y = -(e.clientY / this.sizes.height) * 2 + 1;
+
+    this.raycaster.setFromCamera(this.mouse, this.camera.perspectiveCamera);
+    const hasIntersects =
+      this.raycaster.intersectObjects(this.hoverableMeshes).length > 0;
+
+    document.body.classList.toggle("mesh-hover-active", hasIntersects);
+    document.body.style.cursor = "";
+  }
+
+  onMouseLeave() {
+    document.body.classList.remove("mesh-hover-active");
+    document.body.style.cursor = "";
+  }
+
+  onClick(e) {
+    this.onMouseMove(e); // Update raycast
+    const intersects = this.raycaster.intersectObjects(this.hoverableMeshes);
+
+    if (intersects.length && this.actions?.comment_up) {
+      console.log("✅ Human model clicked:", intersects[0].object.name);
+      this.playAnimationMakeComment();
+    }
+  }
+
+  // ========== ANIMATIONS ==========
   setupAnimations() {
-    // Check if model has animations
-    if (!this.gltf.animations || this.gltf.animations.length === 0) {
-      console.log("No animations found in model");
+    if (!this.gltf.animations?.length) {
+      console.log("No animations found");
       return;
     }
 
     console.log(`Setting up ${this.gltf.animations.length} animations`);
-
-    // Create animation mixer
     this.mixer = new THREE.AnimationMixer(this.actualObject);
-    this.actions = {}; // Store animation actions
 
-    // Create actions for each animation clip
-    this.gltf.animations.forEach((clip, index) => {
-      const action = this.mixer.clipAction(clip);
-      this.actions[clip.name || `animation_${index}`] = action;
-
-      console.log(`Created action: ${clip.name || `animation_${index}`}`);
+    this.gltf.animations.forEach((clip, i) => {
+      const name = clip.name || `anim_${i}`;
+      this.actions[name] = this.mixer.clipAction(clip);
     });
 
-    // Play the idle animation by default
-    const idleAnimationName = "idleComputer";
-    this.playAnimation(idleAnimationName, { loop: THREE.LoopRepeat, speed: 1 });
-
-    setTimeout(() => {
-      this.playAnimationMakeComment();
-    }, 3000); // Delay to ensure everything is set up
-    //
+    this.playAnimation("idleComputer", { loop: THREE.LoopRepeat });
+    setTimeout(
+      () => this.actions.comment_up && this.playAnimationMakeComment(),
+      3000,
+    );
   }
 
-  /* TODO
-  //todo message parameter to display comment text in the scene
-    // need to implement user looking at the camera
-    */
-  playAnimationMakeComment(duration = 3000, message) {
-    const estimatedDuration = duration;
-
-    this.crossfadeTo("comment_up", 0.3);
-
-    // Configure comment_up to not loop and to clamp when finished
-    const commentAction = this.actions["comment_up"];
-    commentAction.setLoop(THREE.LoopOnce, 1);
-    commentAction.clampWhenFinished = true;
-
-    setTimeout(() => {
-      this.crossfadeTo("idleComputer", 0.5);
-    }, estimatedDuration);
-  }
-
-  // Method to play a specific animation
   playAnimation(name, options = {}) {
-    if (!this.actions[name]) {
-      console.error(
-        `Animation "${name}" not found. Available:`,
-        Object.keys(this.actions),
-      );
-      return;
-    }
-
     const action = this.actions[name];
+    if (!action) return console.error(`Animation "${name}" not found`);
 
-    // Stop all other animations
-    Object.values(this.actions).forEach((otherAction) => {
-      if (otherAction !== action) {
-        otherAction.stop();
-      }
-    });
+    Object.values(this.actions).forEach((a) => a !== action && a.stop());
 
-    // Configure and play
     action.reset();
     action.setLoop(
       options.loop || THREE.LoopRepeat,
@@ -319,63 +152,90 @@ export default class Object3D {
     );
     action.clampWhenFinished = options.clampWhenFinished || false;
     action.timeScale = options.speed || 1;
-
     action.play();
-    console.log(`Playing animation: ${name}`);
+
+    console.log(`▶️ Playing: ${name}`);
   }
 
-  // Method to stop all animations
   stopAllAnimations() {
-    Object.values(this.actions).forEach((action) => {
-      action.stop();
-    });
-    console.log("All animations stopped");
+    Object.values(this.actions).forEach((a) => a.stop());
+    console.log("⏹️ All animations stopped");
   }
 
-  // Method to fade between animations
-  crossfadeTo(newAnimationName, fadeDuration = 0.5) {
-    const newAction = this.actions[newAnimationName];
-    if (!newAction) {
-      console.error(`Animation "${newAnimationName}" not found`);
-      return;
-    }
+  crossfadeTo(newName, duration = 0.5) {
+    const newAction = this.actions[newName];
+    if (!newAction) return console.error(`Animation "${newName}" not found`);
 
-    // Find currently playing action
-    let currentAction = null;
-    for (const [name, action] of Object.entries(this.actions)) {
-      if (action.isRunning() && action.getEffectiveWeight() > 0) {
-        currentAction = action;
-        break;
-      }
-    }
+    const current = Object.values(this.actions).find(
+      (a) => a.isRunning() && a.getEffectiveWeight() > 0,
+    );
 
-    if (currentAction && currentAction !== newAction) {
-      // Fade out current action
-      currentAction.fadeOut(fadeDuration);
-    }
+    if (current && current !== newAction) current.fadeOut(duration);
 
-    // Reset and configure new action
     newAction.reset();
-    newAction.setEffectiveTimeScale(1);
-    newAction.setEffectiveWeight(1);
-    newAction.fadeIn(fadeDuration);
-    newAction.play();
+    newAction
+      .setEffectiveTimeScale(1)
+      .setEffectiveWeight(1)
+      .fadeIn(duration)
+      .play();
 
-    console.log(
-      `Crossfading from ${currentAction ? "current" : "none"} to: ${newAnimationName}`,
+    console.log(`🔄 Crossfade to: ${newName}`);
+  }
+
+  playAnimationMakeComment(duration = 3000) {
+    if (!this.actions.comment_up)
+      return console.warn("Comment animation not available");
+
+    this.crossfadeTo("comment_up", 0.3);
+
+    const action = this.actions.comment_up;
+    action.setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
+
+    setTimeout(() => this.crossfadeTo("idleComputer", 0.5), duration);
+  }
+
+  // ========== UTILITIES ==========
+  isHumanModel(mesh) {
+    return this.keywords.some((keyword) =>
+      mesh.name.toLowerCase().includes(keyword),
     );
   }
 
+  debug() {
+    console.log("=== DEBUG ===");
+    if (!this.hoverableMeshes.length) {
+      console.log("⚠️ No hoverable meshes! Scanning...");
+      this.actualObject.traverse((child) => {
+        if (child.isMesh && this.isHumanModel(child)) {
+          this.hoverableMeshes.push(child);
+          console.log(`✅ Added: ${child.name || "unnamed"}`);
+        }
+      });
+    }
+
+    this.hoverableMeshes.forEach((mesh, i) => {
+      console.log(
+        `${i}: ${mesh.name || "unnamed"}`,
+        mesh.position.clone().toArray(),
+      );
+    });
+  }
+
+  // ========== LIFECYCLE ==========
   resize() {}
 
   update() {
     if (this.mixer && this.experience.time) {
-      // Update animation mixer with delta time
-      const delta = this.experience.time.delta / 1000; // Convert ms to seconds
-      this.mixer.update(delta);
+      this.mixer.update(this.experience.time.delta / 1000);
     }
+  }
 
-    // Add any other updates here
-    // this.actualObject.rotation.y += 0.001; // Example rotation
+  destroy() {
+    if (this.canvas) {
+      this.canvas.removeEventListener("mousemove", this._mousemoveHandler);
+      this.canvas.removeEventListener("mouseleave", this._mouseleaveHandler);
+      this.canvas.removeEventListener("click", this._clickHandler);
+    }
+    document.body.style.cursor = "default";
   }
 }

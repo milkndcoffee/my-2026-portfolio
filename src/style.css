@@ -32,6 +32,28 @@ button,
     url("/png/cursors/cursor-active2.png") 8 8,
     pointer !important;
 }
+
+/* Custom cursor for mesh hover (your human model) */
+body.mesh-hover-active .experience-canvas {
+  cursor:
+    url("/png/cursors/cursor-active2.png") 8 8,
+    pointer !important;
+}
+
+/* Fallback for SVG */
+body.mesh-hover-active .experience-canvas {
+  cursor:
+    url("/svg/cursors/cursor-active2.svg") 8 8,
+    pointer !important;
+}
+
+/* Ensure this takes precedence */
+body.mesh-hover-active .experience-canvas {
+  cursor:
+    url("/png/cursors/cursor-active2.png") 8 8,
+    url("/svg/cursors/cursor-active2.svg") 8 8,
+    pointer !important;
+}
 /* Add this at the VERY END of your CSS file */
 
 /* ===== CSS VARIABLES ===== */
@@ -276,8 +298,6 @@ button,
 .navbar-cards-container.shuffled .shuffle-button:hover {
   transform: rotate(270deg) scale(1.1);
 }
-
-
 
 /* Both navbars start with default positions */
 .navbar-main,

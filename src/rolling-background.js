@@ -1,15 +1,14 @@
-// src/rolling-background.js - WITH PERSPECTIVE EFFECT (LIGHT THEME ONLY)
 import Sizes from "./experience/utils/sizes";
 
 class RollingBackground {
   constructor(config = {}) {
     this.sizes = new Sizes();
-    console.log('WIDTH:', this.sizes.width);
+    console.log("WIDTH:", this.sizes.width);
 
     // Default configuration - LIGHT THEME ONLY
     this.config = {
       // SVG settings
-      svgScale: this.sizes.width < 1500 ? .2 : 0.3,
+      svgScale: this.sizes.width < 1500 ? 0.2 : 0.3,
       svgOpacity: 0.4,
 
       // Spacing settings
@@ -27,8 +26,6 @@ class RollingBackground {
       distortion: "none",
 
       perspectiveOrigin: "center center",
-      
-      // REMOVED: theme property
     };
 
     this.init();
@@ -40,7 +37,6 @@ class RollingBackground {
     this.applyStyles();
     this.addToDOM();
     this.startAnimation();
-    // REMOVED: autoDetectTheme() call
   }
 
   createBackground() {
@@ -67,7 +63,8 @@ class RollingBackground {
     };
   }
 
-  generateSVGPattern() { // REMOVED: theme parameter
+  generateSVGPattern() {
+    // REMOVED: theme parameter
     const tileSize = this.calculateTileSize();
     const padding = this.config.padding;
     const translateX = padding;
@@ -96,13 +93,18 @@ class RollingBackground {
 
   getDistortionPath(type = "default") {
     const paths = {
-      default: "polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)",
-      subtle: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)",
-      strong: "polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%)",
+      default:
+        "polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)",
+      subtle:
+        "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)",
+      strong:
+        "polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%)",
       wave: "polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%)",
       none: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      tunnel: "polygon(20% 20%, 80% 20%, 90% 30%, 90% 70%, 80% 80%, 20% 80%, 10% 70%, 10% 30%)",
-      fisheye: "polygon(30% 30%, 70% 30%, 85% 45%, 85% 55%, 70% 70%, 30% 70%, 15% 55%, 15% 45%)",
+      tunnel:
+        "polygon(20% 20%, 80% 20%, 90% 30%, 90% 70%, 80% 80%, 20% 80%, 10% 70%, 10% 30%)",
+      fisheye:
+        "polygon(30% 30%, 70% 30%, 85% 45%, 85% 55%, 70% 70%, 30% 70%, 15% 55%, 15% 45%)",
     };
 
     return paths[type] || paths.default;
@@ -123,7 +125,9 @@ class RollingBackground {
       scaleX(${this.config.scaleX})
       scaleY(${this.config.scaleY})
       skew(${this.config.skewX}deg, ${this.config.skewY}deg)
-    `.replace(/\s+/g, " ").trim();
+    `
+      .replace(/\s+/g, " ")
+      .trim();
 
     style.textContent = `
       /* PERSPECTIVE WRAPPER */
@@ -143,10 +147,10 @@ class RollingBackground {
       /* ROLLING BACKGROUND WITH PERSPECTIVE */
       .rolling-background {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: -10%;
+        left: -10%;
+        width: 120%;
+        height: 120%;
         transform: ${transform};
         transform-style: preserve-3d;
         
@@ -277,7 +281,9 @@ class RollingBackground {
       scaleX(${this.config.scaleX})
       scaleY(${this.config.scaleY})
       skew(${this.config.skewX}deg, ${this.config.skewY}deg)
-    `.replace(/\s+/g, " ").trim();
+    `
+      .replace(/\s+/g, " ")
+      .trim();
 
     this.background.style.transform = transform;
   }
