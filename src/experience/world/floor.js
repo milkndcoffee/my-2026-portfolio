@@ -27,7 +27,7 @@ export default class Floor {
 
     // Position and rotate
     this.plane.rotation.x = -Math.PI / 2;
-    this.plane.position.y = -2;
+    this.plane.position.y = 0;
 
     // Enable shadows
     this.plane.receiveShadow = true;
@@ -36,14 +36,6 @@ export default class Floor {
     this.scene.add(this.plane);
 
 
-    // Optional: Add wireframe for debugging
-    // this.wireframe = new THREE.LineSegments(
-    //     new THREE.EdgesGeometry(this.geometry),
-    //     new THREE.LineBasicMaterial({ color: 0xffffff })
-    // );
-    // this.wireframe.rotation.x = -Math.PI / 2;
-    // this.wireframe.position.y = -1.99;
-    // this.scene.add(this.wireframe);
   }
 
   resize() {

@@ -33,11 +33,71 @@ export default class Object3D {
 
     this.setModel();
     this.setupAnimations();
-    // this.setupDebugGUI(); // Add this line
+    // this.setupDebugGUI();
 
     // this.setupInteractions();
   }
+  // Add this method to your Object3D class
+  debugModelPosition() {
+    console.log("=== MODEL POSITION DEBUG ===");
+    console.log(
+      "Model position:",
+      this.actualObject.position.clone().toArray(),
+    );
 
+    // Calculate bounding box
+    const box = new THREE.Box3().setFromObject(this.actualObject);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+
+    console.log("Bounding box center:", center.toArray());
+    console.log("Bounding box size:", size.toArray());
+    console.log("Bounding box min:", box.min.toArray());
+    console.log("Bounding box max:", box.max.toArray());
+
+    // Add visual markers
+    this.addDebugMarkers(center);
+  }
+
+  addDebugMarkers(modelCenter) {
+    // Red sphere at world origin (0,0,0)
+    const originMarker = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+    );
+    this.scene.add(originMarker);
+
+    // Green sphere at where camera is looking (0,1,0)
+    const targetMarker = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
+    );
+    targetMarker.position.set(0, 1, 0);
+    this.scene.add(targetMarker);
+
+    // Blue sphere at model's bounding box center
+    if (modelCenter) {
+      const modelCenterMarker = new THREE.Mesh(
+        new THREE.SphereGeometry(0.1, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+      );
+      modelCenterMarker.position.copy(modelCenter);
+      this.scene.add(modelCenterMarker);
+    }
+
+    // Grid helper
+    const gridHelper = new THREE.GridHelper(20, 20, 0x00ff00, 0x444444);
+    this.scene.add(gridHelper);
+
+    // Axes helper
+    const axesHelper = new THREE.AxesHelper(5);
+    this.scene.add(axesHelper);
+
+    console.log("✅ Debug markers added:");
+    console.log("  🔴 Red: World origin (0,0,0)");
+    console.log("  🟢 Green: Camera target (0,1,0)");
+    console.log("  🔵 Blue: Model center");
+  }
   // In object.js, add this method
   // setupDebugGUI() {
   //   // Only create GUI if we're in development/localhost
@@ -125,42 +185,47 @@ export default class Object3D {
   setModel() {
     console.log("Setting up model...");
 
-    // Scale factor - adjust this based on your model size
-    let scaleFactor = this.sizes.width * 0.0002; // Default scaling based on screen size
+    // Position the model in the CENTER of the 3D world
+    // Camera will use viewOffset to shift it to the right on screen
 
-    console.log("Using scale factor:", scaleFactor);
+    let scaleFactor = this.sizes.width * 0.0002;
     this.actualObject.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-    // Desktop format adjustment for scale and position
-    this.actualObject.position.x = 1 / (this.sizes.width * 0.4);
-    this.actualObject.position.y = -2;
-    this.actualObject.position.z = 1.7;
+    // TEMPORARY: Set position to (0,0,0) to see where the model root is
+    this.actualObject.position.set(0, 0, 0);
+    this.actualObject.rotation.set(0, 0, 0);
+    // Desktop format - model centered at (0, y, z)
+    // this.actualObject.position.x = 0; // CENTERED
+    // this.actualObject.position.y = -2;
+    // this.actualObject.position.z = 1.7;
+    this.actualObject.position.set(-5.25, 0, 0);
 
-    // Partial Desktop Size format adjustment for scale and position
+    // Partial Desktop Size
     if (this.sizes.width < 1400) {
       this.actualObject.scale.set(0.15, 0.15, 0.15);
-      this.actualObject.position.x = -0.5;
+      this.actualObject.position.x = 0; // CENTERED
       this.actualObject.position.y = 1;
       this.actualObject.position.z = 9.5;
     }
 
-    // Tablet format adjustment for scale and position
+    // Tablet format
     if (this.sizes.width < 960) {
-      // this.actualObject.scale.set(0.15, 0.15, 0.15);
-      this.actualObject.position.x = -1.2;
+      this.actualObject.position.x = 0; // CENTERED
       this.actualObject.position.y = 1;
       this.actualObject.position.z = 10;
     }
 
-    // Mobile format adjustment for scale and position
+    // Mobile format
     if (this.sizes.width < 600) {
       this.actualObject.scale.set(0.12, 0.12, 0.12);
-      this.actualObject.position.x = -1.2;
+      this.actualObject.position.x = 0; // CENTERED
       this.actualObject.position.y = -0.5;
       this.actualObject.position.z = 10;
     }
 
-    console.log("Position :", this.actualObject.position);
+    console.log("Model centered at:", this.actualObject.position);
+
+    this.debugModelPosition();
 
     // Enable shadows
     this.actualObject.traverse((child) => {
@@ -208,27 +273,24 @@ export default class Object3D {
     //
   }
 
-
   /* TODO
   //todo message parameter to display comment text in the scene
     // need to implement user looking at the camera
     */
-  playAnimationMakeComment(duration = 3000, message){
-    const estimatedDuration = duration; 
+  playAnimationMakeComment(duration = 3000, message) {
+    const estimatedDuration = duration;
 
-    this.playAnimation("comment_up", {
-      loop: THREE.LoopOnce,
-      clampWhenFinished: true,
-    });
+    this.crossfadeTo("comment_up", 0.3);
+
+    // Configure comment_up to not loop and to clamp when finished
+    const commentAction = this.actions["comment_up"];
+    commentAction.setLoop(THREE.LoopOnce, 1);
+    commentAction.clampWhenFinished = true;
 
     setTimeout(() => {
-      // Return to idle
-      const idleAnimationName = "idleComputer";
-      this.playAnimation(idleAnimationName);
+      this.crossfadeTo("idleComputer", 0.5);
     }, estimatedDuration);
   }
-
-
 
   // Method to play a specific animation
   playAnimation(name, options = {}) {
@@ -278,22 +340,30 @@ export default class Object3D {
       return;
     }
 
-    const oldAction = this.mixer._listeners.find(
-      (listener) => listener.action && listener.action.isRunning(),
-    )?.action;
-
-    if (oldAction) {
-      // Fade out old, fade in new
-      oldAction.fadeOut(fadeDuration);
+    // Find currently playing action
+    let currentAction = null;
+    for (const [name, action] of Object.entries(this.actions)) {
+      if (action.isRunning() && action.getEffectiveWeight() > 0) {
+        currentAction = action;
+        break;
+      }
     }
 
+    if (currentAction && currentAction !== newAction) {
+      // Fade out current action
+      currentAction.fadeOut(fadeDuration);
+    }
+
+    // Reset and configure new action
     newAction.reset();
     newAction.setEffectiveTimeScale(1);
     newAction.setEffectiveWeight(1);
     newAction.fadeIn(fadeDuration);
     newAction.play();
 
-    console.log(`Crossfading to: ${newAnimationName}`);
+    console.log(
+      `Crossfading from ${currentAction ? "current" : "none"} to: ${newAnimationName}`,
+    );
   }
 
   resize() {}
