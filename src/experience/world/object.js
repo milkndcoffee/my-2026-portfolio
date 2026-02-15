@@ -182,16 +182,23 @@ export default class Object3D {
     console.log(`🔄 Crossfade to: ${newName}`);
   }
 
-  playAnimationMakeComment(duration = 3000) {
+  playAnimationMakeComment(duration = 3000, comment = "Making a comment...") {
+    //TODO comment parameter |
     if (!this.actions.comment_up)
       return console.warn("Comment animation not available");
 
     this.crossfadeTo("comment_up", 0.3);
+    // this.crossfadeTo("comment_down", 0.3);
 
     const action = this.actions.comment_up;
     action.setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
 
-    setTimeout(() => this.crossfadeTo("idleComputer", 0.5), duration);
+    // TODO: fix hand gesture
+    setTimeout(() => this.crossfadeTo("comment_down", 0.3), 600);
+    const action2 = this.actions.comment_down;
+    action2.setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
+
+    setTimeout(() => this.crossfadeTo("idleComputer", 0.5), duration-500);
   }
 
   // ========== UTILITIES ==========

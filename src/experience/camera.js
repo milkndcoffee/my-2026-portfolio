@@ -123,7 +123,11 @@ export default class Camera {
       window.location.search.includes("debug")
     ) {
       console.log("🎮 Creating GUI...");
-      this.gui = new GUI({ title: "Camera Controls", width: 450 });
+      this.gui = new GUI({
+        title: "Camera Controls",
+        width: 450,
+        closed: true,
+      });
 
       // ===== 1. CAMERA POSITION & TARGET GRABBER =====
       const grabFolder = this.gui.addFolder("🎯 Grab Camera Data");
@@ -322,6 +326,10 @@ export default class Camera {
       }
 
       settingsFolder.open();
+      grabFolder.close();
+      presetFolder.close();
+      charFolder.close();
+      settingsFolder.close();
 
       // ===== 6. RESET =====
       this.gui

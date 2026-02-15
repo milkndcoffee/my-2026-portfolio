@@ -359,20 +359,127 @@
         <section id="contact" class="section">
           <div class="section-content">
             <h1>Contact</h1>
-            <p>email !</p>
+            <p>
+              If you'd like to get in touch you can find me at <br />
+              <a href="mailto:hello@adeguzm.com">hello@adeguzm.com</a>
+            </p>
           </div>
         </section>
 
         <section id="resume" class="section">
           <div class="section-content">
             <h1>Resume</h1>
-            <p>resume !</p>
+
+            <!-- Resume Preview/Description -->
+            <div class="resume-preview">
+              <p class="resume-description">
+                Download my resume to learn more about my professional
+                experience, and technical skills. Available in PDF, and DOCX for
+                your convenience.
+              </p>
+
+              <!-- Download Button Area -->
+              <div class="resume-download-container">
+                <!-- Method 1: Direct download link (if resume is in your public folder) -->
+                <a
+                  href="/resume/Adrian_DeGuzman_Resume.pdf"
+                  class="resume-download-btn"
+                  download="Adrian_DeGuzman_Resume.pdf"
+                >
+                  <span class="btn-icon">📄</span>
+                  <span class="btn-text">Download Resume (PDF)</span>
+                  <span class="btn-icon">⬇️</span>
+                </a>
+
+                <!-- Method 3: Alternative formats -->
+                <div class="resume-formats">
+                  <p class="formats-label">Also available in:</p>
+                  <div class="format-buttons">
+                    <a
+                      href="/resume/Adrian_DeGuzman_Resume.docx"
+                      class="format-btn"
+                      download="Adrian_DeGuzman_Resume.docx"
+                      >DOCX</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Last Updated Info (Optional) -->
+            <p class="resume-updated">Last updated: February 2026</p>
           </div>
         </section>
         <section id="archive" class="section">
           <div class="section-content">
             <h1>Archive</h1>
-            <p>archive !</p>
+
+            <!-- Archive Description -->
+            <div class="archive-description">
+              <p class="archive-text">
+                Take a look at my previous portfolio website, showcasing my
+                earlier work and design evolution. See how my skills and style
+                have developed over time.
+              </p>
+            </div>
+
+            <!-- Old Portfolio Link Card -->
+            <a
+              href="https://your-old-portfolio-url.com"
+              class="archive-link-card"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="archive-card-content">
+                <!-- Left side: Icon/Preview -->
+                <div class="archive-icon">
+                  <img
+                    src="/svg/icons/archive-icon.svg"
+                    alt="Archive"
+                    class="archive-svg"
+                    onerror="
+                      this.src = '/png/icons/archive-fallback.png';
+                      this.onerror = null;
+                    "
+                  />
+                  <!-- Fallback emoji if SVG fails -->
+                  <span class="archive-emoji-fallback">📁</span>
+                </div>
+
+                <!-- Middle: Text content -->
+                <div class="archive-info">
+                  <h3 class="archive-title">2021 Portfolio Archive</h3>
+                  <p class="archive-subtitle">Previous Version</p>
+                  <span class="archive-meta">View Archive →</span>
+                </div>
+
+                <!-- Right side: External link indicator -->
+                <div class="archive-external">
+                  <svg
+                    class="external-icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                    ></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </div>
+              </div>
+            </a>
+
+            <!-- Optional: Additional Archive Items -->
+            <div class="archive-metadata">
+              <p class="archive-footnote">
+                Built with Three.js • Hosted on Vercel • 2024 Edition
+              </p>
+            </div>
           </div>
         </section>
       </div>
