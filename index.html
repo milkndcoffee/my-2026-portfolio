@@ -198,80 +198,141 @@
             </p>
           </div>
         </section>
+
+        <!-- Projects Section -->
+
         <section id="projects" class="section">
           <div class="section-content">
             <h1>Projects</h1>
             <div class="projects-grid">
               <!-- Portfolio 2026 - Current Project -->
               <div class="project-card">
-                <div class="project-header">
-                  <h2>Interactive 3D Portfolio</h2>
-                  <span class="project-year">2026</span>
+                <div class="project-image-container">
+                  <img
+                    src="/png/previews/portfolio.png"
+                    alt="Portfolio 2026 Preview"
+                    class="project-image"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    "
+                  />
+                  <div class="project-image-fallback" style="display: none">
+                    🎨
+                  </div>
                 </div>
-                <p class="project-description">
-                  A fully interactive 3D portfolio website built with Three.js
-                  featuring a custom GLB character model with idle and special
-                  animations, dual-layer navigation system with shuffle toggle,
-                  and retro CRT shader effects.
-                </p>
-                <div class="project-tech">
-                  <span>Three.js</span>
-                  <span>GSAP</span>
-                  <span>JavaScript</span>
-                  <span>CSS3</span>
-                  <span>Blender</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link">Live Demo</a>
-                  <a href="#" class="project-link">GitHub</a>
-                </div>
-              </div>
-
-              <!-- FruitsnSeason - Android App -->
-              <div class="project-card">
-                <div class="project-header">
-                  <h2>FruitsnSeason</h2>
-                  <span class="project-year">2022</span>
-                </div>
-                <p class="project-description">
-                  Mobile Android application designed with California Bay Area
-                  residents in mind. Helps users discover which fruits are in
-                  season locally, find farmers markets, and access seasonal
-                  recipes. Features API integration and clean Material Design
-                  UI.
-                </p>
-                <div class="project-tech">
-                  <span>Java</span>
-                  <span>Android Studio</span>
-                  <span>XML</span>
-                  <span>REST APIs</span>
-                  <span>SQLite</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link">GitHub</a>
-                  <a href="#" class="project-link">Demo</a>
+                <div class="project-content">
+                  <div class="project-header">
+                    <h2>2026 Portfolio</h2>
+                    <span class="project-year">2026</span>
+                  </div>
+                  <p class="project-description">
+                    A fully interactive 3D portfolio website built with Three.js
+                    featuring a custom GLB character model with idle and special
+                    animations, dual-layer navigation system with shuffle
+                    toggle, and retro CRT shader effects.
+                  </p>
+                  <div class="project-tech">
+                    <span>Three.js</span>
+                    <span>GSAP</span>
+                    <span>JavaScript</span>
+                    <span>CSS3</span>
+                    <span>Blender</span>
+                    <span>Figma</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="#" class="project-link">GitHub</a>
+                  </div>
                 </div>
               </div>
 
-              <!-- Additional Projects -->
+              <!-- my-3d-room - First Threejs Project -->
               <div class="project-card">
-                <div class="project-header">
-                  <h2>Title</h2>
-                  <span class="project-year">XXXX - XXXX</span>
+                <div class="project-image-container">
+                  <img
+                    src="/png/previews/my-3d-room.png"
+                    alt="my-3d-room Preview"
+                    class="project-image"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    "
+                  />
+                  <div class="project-image-fallback" style="display: none">
+                    🖥️
+                  </div>
                 </div>
-                <p class="project-description">something something</p>
-                <div class="project-tech">
-                  <span>tech</span>
-                  <span>tech</span>
-                  <span>tech</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link">Related Links</a>
+                <div class="project-content">
+                  <div class="project-header">
+                    <h2>my-3d-room</h2>
+                    <span class="project-year">2026</span>
+                  </div>
+                  <p class="project-description">
+                    my-3d-room is a personal project that showcases my first
+                    experience into 3D web development using Three.js. It
+                    features a virtual room environment where users can explore
+                    and interact with various 3D objects, demonstrating my
+                    skills in modeling, texturing, and implementing basic
+                    interactivity in a web-based 3D space.
+                  </p>
+                  <div class="project-tech">
+                    <span>Three.js</span>
+                    <span>GSAP</span>
+                    <span>JavaScript</span>
+                    <span>CSS3</span>
+                    <span>Blender</span>
+                  </div>
+                  <div class="project-links">
+                    <a
+                      href="https://github.com/milkndcoffee/my-3d-room"
+                      class="project-link"
+                      >GitHub</a
+                    >
+                    <a
+                      href="https://milkndcoffee.github.io/my-3d-room/"
+                      class="project-link"
+                      >Demo</a
+                    >
+                  </div>
                 </div>
               </div>
+
+              <!-- For Additional Project -->
+              <!-- <div class="project-card">
+                <div class="project-image-container">
+                  <img
+                    src="/path/to/your/project-preview.jpg"
+                    alt="Project Preview"
+                    class="project-image"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    "
+                  />
+                  <div class="project-image-fallback" style="display: none">
+                    📱
+                  </div>
+                </div>
+                <div class="project-content">
+                  <div class="project-header">
+                    <h2>Title</h2>
+                    <span class="project-year">XXXX - XXXX</span>
+                  </div>
+                  <p class="project-description">something something</p>
+                  <div class="project-tech">
+                    <span>tech</span>
+                    <span>tech</span>
+                    <span>tech</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="#" class="project-link">Related Links</a>
+                  </div>
+                </div>
+              </div> -->
             </div>
           </div>
         </section>
+
         <section id="experience" class="section">
           <div class="section-content">
             <h1>Experience</h1>
@@ -431,25 +492,9 @@
               rel="noopener noreferrer"
             >
               <div class="archive-card-content">
-                <!-- Left side: Icon/Preview -->
-                <div class="archive-icon">
-                  <img
-                    src="/svg/icons/archive-icon.svg"
-                    alt="Archive"
-                    class="archive-svg"
-                    onerror="
-                      this.src = '/png/icons/archive-fallback.png';
-                      this.onerror = null;
-                    "
-                  />
-                  <!-- Fallback emoji if SVG fails -->
-                  <span class="archive-emoji-fallback">📁</span>
-                </div>
-
                 <!-- Middle: Text content -->
                 <div class="archive-info">
                   <h3 class="archive-title">2021 Portfolio Archive</h3>
-                  <p class="archive-subtitle">Previous Version</p>
                   <span class="archive-meta">View Archive →</span>
                 </div>
 
@@ -473,13 +518,6 @@
                 </div>
               </div>
             </a>
-
-            <!-- Optional: Additional Archive Items -->
-            <div class="archive-metadata">
-              <p class="archive-footnote">
-                Built with Three.js • Hosted on Vercel • 2024 Edition
-              </p>
-            </div>
           </div>
         </section>
       </div>
