@@ -1,6 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-/* ===== CSS RESET & BASE STYLES ===== */
+/*==============================================================================
+  TABLE OF CONTENTS
+  ==============================================================================
+  1.  CSS RESET & BASE STYLES
+  2.  CUSTOM CURSORS (PRESERVED)
+  3.  CSS VARIABLES
+  4.  NAVBAR STYLES (PRESERVED)
+  5.  EXPERIENCE & 3D CANVAS
+  6.  PAGE LAYOUT
+  7.  SECTION STYLES
+      - Home Section
+      - About Section
+      - Experience Section
+      - Projects Section
+      - Resume Section
+      - Archive Section
+  8.  FOOTER STYLES (CLEANED UP)
+  9.  LOADING SCREEN
+  10. ANIMATIONS
+  11. CRT OVERLAY EFFECT (PRESERVED)
+  12. RESPONSIVE DESIGN
+==============================================================================*/
+
+/*==============================================================================
+  1. CSS RESET & BASE STYLES
+==============================================================================*/
 * {
   margin: 0;
   padding: 0;
@@ -15,8 +40,11 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
+
+/*==============================================================================
+  2. CUSTOM CURSORS (PRESERVED - DO NOT MODIFY)
+==============================================================================*/
 html {
-  /* base cursor for non‑clickable regions */
   cursor:
     url("/png/cursors/cursor.png") 8 8,
     url("/svg/cursors/cursor.svg") 8 8,
@@ -36,7 +64,7 @@ button,
   cursor:
     url("/png/cursors/cursor-active2.png") 8 8,
     url("/svg/cursors/cursor-active2.svg") 8 8,
-    pointer;
+    pointer !important;
 }
 
 body.mesh-hover-active .experience-canvas {
@@ -55,6 +83,7 @@ span.footer-logo {
     url("/png/cursors/cursor.png") 8 8,
     url("/svg/cursors/cursor.svg") 8 8;
 }
+
 footer a.nav-item,
 footer a:not(.footer-social-link) {
   cursor:
@@ -62,7 +91,27 @@ footer a:not(.footer-social-link) {
     url("/svg/cursors/cursor-active2.svg") 8 8,
     pointer;
 }
-/* ===== CSS VARIABLES ===== */
+
+/* Footer cursor hierarchy */
+.footer,
+.footer * {
+  cursor:
+    url("/png/cursors/cursor.png") 8 8,
+    url("/svg/cursors/cursor.svg") 8 8,
+    auto;
+}
+
+.footer a,
+.footer a * {
+  cursor:
+    url("/png/cursors/cursor-active2.png") 8 8,
+    url("/svg/cursors/cursor-active2.svg") 8 8,
+    pointer !important;
+}
+
+/*==============================================================================
+  3. CSS VARIABLES
+==============================================================================*/
 :root {
   /* Light Theme */
   --color-background-light: #f5f5f5;
@@ -102,7 +151,7 @@ footer a:not(.footer-social-link) {
   --footer-hover-bg: rgba(245, 245, 245, 0.911);
   --footer-hover-text: rgba(0, 0, 0, 0.6);
   --footer-hover-border: rgba(0, 0, 0, 0.08);
-  --footer-logo: rgba(0, 0, 0, 0.6);
+  --footer-logo: rgba(102, 102, 102, 0.699);
   --footer-divider: rgba(0, 0, 0, 0.1);
   --footer-tagline: rgba(0, 0, 0, 0.3);
   --footer-nav: rgba(0, 0, 0, 0.4);
@@ -134,8 +183,9 @@ footer a:not(.footer-social-link) {
   --nav-border: var(--nav-border-dark);
 }
 
-/* ===== NAVBAR STYLES ===== */
-/* Navbar Base */
+/*==============================================================================
+  4. NAVBAR STYLES (PRESERVED - DO NOT MODIFY)
+==============================================================================*/
 .navbar {
   overflow: visible;
   position: fixed;
@@ -145,7 +195,6 @@ footer a:not(.footer-social-link) {
   font-family: "Inter", sans-serif;
 }
 
-/* Navbar Cards Container */
 .navbar-cards-container {
   position: relative;
   min-width: 400px;
@@ -154,7 +203,6 @@ footer a:not(.footer-social-link) {
   perspective: 1000px;
 }
 
-/* Navbar Card Base */
 .navbar-card {
   position: absolute;
   width: 100%;
@@ -168,7 +216,6 @@ footer a:not(.footer-social-link) {
   overflow: hidden;
 }
 
-/* Main Navbar Card (Default: Front) */
 .navbar-main {
   top: 0;
   left: 0;
@@ -179,7 +226,6 @@ footer a:not(.footer-social-link) {
   overflow: visible;
 }
 
-/* Secondary Navbar Card (Default: Behind) */
 .navbar-secondary {
   top: 20px;
   left: 0;
@@ -190,7 +236,6 @@ footer a:not(.footer-social-link) {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Shuffled State - Cards Swap */
 .navbar-cards-container.shuffled .navbar-main {
   top: 20px;
   z-index: 1;
@@ -209,7 +254,6 @@ footer a:not(.footer-social-link) {
   border-color: var(--color-container-border-light);
 }
 
-/* Card Content */
 .navbar-card-content {
   display: flex;
   align-items: center;
@@ -220,7 +264,6 @@ footer a:not(.footer-social-link) {
   padding-bottom: 35px;
 }
 
-/* Navigation Items */
 .nav-item {
   display: flex;
   flex-direction: column;
@@ -231,18 +274,11 @@ footer a:not(.footer-social-link) {
   border-radius: 15px;
   transition: all 0.3s ease;
   position: relative;
-  /* background: rgba(61, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1); */
   margin: 0 0.1rem;
-  /* min-width: 72px; */
 }
 
 .nav-item:hover {
-  /* z-index: 3; */
   filter: drop-shadow(0 25px 10px var(--nav-shadow-color));
-  /* background-position: bottom; */
-  /* background: rgba(61, 0, 0, 0.05); */
-  /* transform: translateY(-8px) perspective(3cm) rotateX(-15deg); */
   border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -279,7 +315,6 @@ footer a:not(.footer-social-link) {
   white-space: nowrap;
 }
 
-/* Shuffle Button */
 .shuffle-button {
   position: absolute;
   top: 85px;
@@ -311,7 +346,6 @@ footer a:not(.footer-social-link) {
   transition: transform 0.3s ease;
 }
 
-/* Rotate shuffle icon when shuffled */
 .navbar-cards-container.shuffled .shuffle-button {
   transform: rotate(180deg);
 }
@@ -320,13 +354,11 @@ footer a:not(.footer-social-link) {
   transform: rotate(270deg) scale(1.1);
 }
 
-/* Both navbars start with default positions */
 .navbar-main,
 .navbar-secondary {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Default: Main navbar is front */
 .navbar-main {
   top: 0;
   z-index: 2;
@@ -346,7 +378,6 @@ footer a:not(.footer-social-link) {
   pointer-events: none;
 }
 
-/* When secondary navbar is front */
 .navbar-secondary.front {
   top: 0;
   z-index: 2;
@@ -358,7 +389,6 @@ footer a:not(.footer-social-link) {
 }
 
 .navbar-main.front {
-  /* This shouldn't happen, but just in case */
   top: 0;
   z-index: 2;
   transform: translateY(0) scale(1);
@@ -368,7 +398,6 @@ footer a:not(.footer-social-link) {
   pointer-events: auto;
 }
 
-/* When navbar is behind */
 .navbar-main:not(.front) {
   top: 20px;
   z-index: 1;
@@ -387,34 +416,10 @@ footer a:not(.footer-social-link) {
   pointer-events: none;
 }
 
-/* Smooth transitions for all navbar cards */
 .navbar-card {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Manual shuffle state */
-/* .navbar-cards-container.shuffled .navbar-main {
-  top: 20px;
-  z-index: 1;
-  transform: translateY(10px) scale(0.95);
-  background: #c2bfbb;
-  border-color: rgba(255, 255, 255, 0.1);
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-.navbar-cards-container.shuffled .navbar-secondary {
-  top: 0;
-  z-index: 2;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  filter: blur(0);
-  background: var(--color-container-bg-light);
-  border-color: var(--color-container-border-light);
-  pointer-events: auto;
-} */
-
-/* Mobile Toggle */
 .nav-toggle {
   display: none;
   position: absolute;
@@ -470,7 +475,9 @@ footer a:not(.footer-social-link) {
   bottom: 0;
 }
 
-/* ===== EXPERIENCE & 3D CANVAS ===== */
+/*==============================================================================
+  5. EXPERIENCE & 3D CANVAS
+==============================================================================*/
 .experience {
   position: fixed;
   width: 100vw;
@@ -486,12 +493,14 @@ footer a:not(.footer-social-link) {
   display: block;
 }
 
-/* ===== PAGE LAYOUT ===== */
+/*==============================================================================
+  6. PAGE LAYOUT
+==============================================================================*/
 .page {
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  padding-top: 100vh; /* Make room for the fixed canvas */
+  padding-top: 100vh;
 }
 
 .page-wrapper {
@@ -501,7 +510,6 @@ footer a:not(.footer-social-link) {
   padding: 0 20px;
 }
 
-/* Left Content Area */
 .left-content {
   position: relative;
   z-index: 10;
@@ -512,7 +520,6 @@ footer a:not(.footer-social-link) {
   pointer-events: auto;
 }
 
-/* ===== HERO SECTION ===== */
 .hero {
   position: fixed;
   top: 0;
@@ -555,7 +562,9 @@ footer a:not(.footer-social-link) {
   animation: bounce 2s infinite;
 }
 
-/* ===== SECTIONS ===== */
+/*==============================================================================
+  7. SECTION STYLES
+==============================================================================*/
 .section {
   min-height: 100vh;
   max-width: 50vw;
@@ -576,7 +585,69 @@ footer a:not(.footer-social-link) {
   color: var(--color-subtle-text);
 }
 
-/* ==== HOME SECTION ==== */
+.section-content {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  background: var(--color-section-bg-light);
+  border: 8px solid var(--color-section-border-light);
+  box-shadow: #8f8f8fb2 0px 4px 30px;
+  border-radius: 20px;
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+}
+
+.section-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+
+.section-text a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.section-text a:hover {
+  opacity: 0.8;
+}
+
+.section-margin {
+  height: 100vh;
+  pointer-events: none;
+}
+
+.section-list {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+
+.section-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--color-text);
+}
+
+.section-list li:before {
+  content: "•";
+  color: var(--color-accent);
+  position: absolute;
+  left: 0;
+  font-size: 1.5rem;
+}
+
+/*------------------------------------------------------------------------------
+  Home Section
+------------------------------------------------------------------------------*/
 #home.section .section-content {
   text-align: center;
   width: 100%;
@@ -593,8 +664,9 @@ footer a:not(.footer-social-link) {
   line-height: 1.8;
   color: rgba(56, 56, 55, 0.712);
 }
+
 #home.section .social-links-container {
-  font-size: 0; /* Removes whitespace between inline elements */
+  font-size: 0;
 }
 
 #home.section .social-link {
@@ -612,7 +684,9 @@ footer a:not(.footer-social-link) {
   height: var(--social-icon-size);
 }
 
-/* ===== ABOUT SECTION ===== */
+/*------------------------------------------------------------------------------
+  About Section
+------------------------------------------------------------------------------*/
 .about-content {
   text-align: left;
   max-width: 900px;
@@ -667,7 +741,9 @@ footer a:not(.footer-social-link) {
   left: 0;
 }
 
-/* ===== EXPERIENCE SECTION ===== */
+/*------------------------------------------------------------------------------
+  Experience Section
+------------------------------------------------------------------------------*/
 .timeline {
   position: relative;
   max-width: 900px;
@@ -735,7 +811,9 @@ footer a:not(.footer-social-link) {
   left: 0;
 }
 
-/* ===== PROJECTS SECTION ===== */
+/*------------------------------------------------------------------------------
+  Projects Section
+------------------------------------------------------------------------------*/
 .projects-grid {
   display: flex;
   flex-direction: column;
@@ -864,37 +942,9 @@ footer a:not(.footer-social-link) {
   flex: 1;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 768px) {
-  .project-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
-  }
-
-  .project-image-container {
-    width: 160px;
-    height: 160px;
-  }
-
-  .project-header {
-    justify-content: center;
-  }
-
-  .project-links {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .project-image-container {
-    width: 140px;
-    height: 140px;
-  }
-}
-
-/* ===== RESUME SECTION STYLES ===== */
+/*------------------------------------------------------------------------------
+  Resume Section
+------------------------------------------------------------------------------*/
 #resume .section-content {
   text-align: center;
   max-width: 600px;
@@ -913,12 +963,10 @@ footer a:not(.footer-social-link) {
   margin-bottom: 2rem;
 }
 
-/* Download Button Container */
 .resume-download-container {
   margin: 2.5rem 0;
 }
 
-/* Main Download Button */
 .resume-download-btn {
   display: inline-flex;
   align-items: center;
@@ -944,10 +992,6 @@ footer a:not(.footer-social-link) {
   box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
 }
 
-.resume-download-btn:active {
-  transform: translateY(-1px);
-}
-
 .btn-icon {
   font-size: 1.3rem;
   transition: transform 0.3s ease;
@@ -957,20 +1001,6 @@ footer a:not(.footer-social-link) {
   transform: translateY(3px);
 }
 
-/* File Size Badge (Optional) */
-.btn-size {
-  font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.2rem 0.8rem;
-  border-radius: 20px;
-  margin-left: 0.5rem;
-}
-
-.resume-download-btn:hover .btn-size {
-  background: rgba(74, 111, 165, 0.1);
-}
-
-/* Alternative Formats */
 .resume-formats {
   margin-top: 1.5rem;
 }
@@ -1008,7 +1038,6 @@ footer a:not(.footer-social-link) {
   transform: translateY(-2px);
 }
 
-/* Last Updated Text */
 .resume-updated {
   font-size: 0.85rem;
   color: var(--color-text);
@@ -1017,42 +1046,9 @@ footer a:not(.footer-social-link) {
   font-style: italic;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .resume-stats {
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-  }
-
-  .resume-download-btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .format-buttons {
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 480px) {
-  .resume-download-btn {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .btn-size {
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
-/* ===== ARCHIVE SECTION STYLES ===== */
+/*------------------------------------------------------------------------------
+  Archive Section
+------------------------------------------------------------------------------*/
 #archive .section-content {
   text-align: center;
   max-width: 600px;
@@ -1072,7 +1068,6 @@ footer a:not(.footer-social-link) {
   margin: 0 auto;
 }
 
-/* Archive Link Card */
 .archive-link-card {
   display: block;
   text-decoration: none;
@@ -1094,11 +1089,6 @@ footer a:not(.footer-social-link) {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.archive-link-card:active {
-  transform: translateY(-2px) scale(1.01);
-}
-
-/* Shine effect on hover */
 .archive-link-card::before {
   content: "";
   position: absolute;
@@ -1127,7 +1117,6 @@ footer a:not(.footer-social-link) {
   z-index: 1;
 }
 
-/* Icon/Preview Area */
 .archive-icon {
   flex-shrink: 0;
   width: 60px;
@@ -1147,7 +1136,7 @@ footer a:not(.footer-social-link) {
 .archive-svg {
   width: 35px;
   height: 35px;
-  filter: brightness(0) invert(1); /* Makes SVG white */
+  filter: brightness(0) invert(1);
 }
 
 .archive-emoji-fallback {
@@ -1155,13 +1144,6 @@ footer a:not(.footer-social-link) {
   font-size: 2rem;
 }
 
-.archive-svg[src=""] + .archive-emoji-fallback,
-.archive-svg[src="#"] + .archive-emoji-fallback,
-.archive-svg:not([src]) + .archive-emoji-fallback {
-  display: block;
-}
-
-/* Info Area */
 .archive-info {
   flex-grow: 1;
   text-align: left;
@@ -1179,13 +1161,6 @@ footer a:not(.footer-social-link) {
   color: var(--color-primary);
 }
 
-.archive-subtitle {
-  font-size: 0.9rem;
-  color: var(--color-text);
-  opacity: 0.6;
-  margin-bottom: 0.5rem;
-}
-
 .archive-meta {
   font-size: 0.9rem;
   color: var(--color-primary);
@@ -1200,7 +1175,6 @@ footer a:not(.footer-social-link) {
   gap: 0.8rem;
 }
 
-/* External Link Icon */
 .archive-external {
   flex-shrink: 0;
   opacity: 0.5;
@@ -1222,222 +1196,11 @@ footer a:not(.footer-social-link) {
   stroke: var(--color-primary);
 }
 
-/* Metadata/Footnote */
-.archive-metadata {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.archive-footnote {
-  font-size: 0.85rem;
-  color: var(--color-text);
-  opacity: 0.5;
-  letter-spacing: 0.5px;
-}
-
-/* Dark Theme Adjustments */
-.dark-theme .archive-link-card {
-  background: rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-.dark-theme .archive-link-card:hover {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: var(--color-primary-dark);
-}
-
-.dark-theme .archive-icon {
-  background: var(--color-primary-dark);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .archive-card-content {
-    gap: 1rem;
-  }
-
-  .archive-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .archive-svg {
-    width: 25px;
-    height: 25px;
-  }
-
-  .archive-title {
-    font-size: 1.1rem;
-  }
-
-  .archive-subtitle {
-    font-size: 0.8rem;
-  }
-
-  .archive-meta {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .archive-card-content {
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .archive-info {
-    text-align: center;
-    width: 100%;
-  }
-
-  .archive-external {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .archive-link-card {
-    padding: 2rem 1.5rem 1.5rem;
-  }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .timeline-item {
-    padding: 20px;
-  }
-
-  .timeline-item:hover {
-    transform: translateX(5px);
-  }
-}
-
-@media (max-width: 480px) {
-  .project-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .skill-category {
-    padding: 20px;
-  }
-}
-
-.section-content {
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-  padding: 40px;
-  background: var(--color-section-bg-light);
-  border: 8px solid var(--color-section-border-light);
-  box-shadow: #8f8f8fb2 0px 4px 30px;
-  border-radius: 20px;
-}
-
-.section-title {
-  font-size: 3rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: var(--color-primary);
-}
-
-.section-text {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
-}
-
-.section-text a {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-.section-text a:hover {
-  opacity: 0.8;
-}
-
-/* Section Margins */
-.section-margin {
-  height: 100vh;
-  pointer-events: none;
-}
-
-/* Lists */
-.section-list {
-  list-style: none;
-  margin: 1.5rem 0;
-}
-
-.section-list li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: var(--color-text);
-}
-
-.section-list li:before {
-  content: "•";
-  color: var(--color-accent);
-  position: absolute;
-  left: 0;
-  font-size: 1.5rem;
-}
-
-/* Additional Pages */
-#resume,
-#archive {
-  min-height: 100vh;
-  padding: 120px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#contact .section-content,
-#resume .section-content,
-#archive .section-content {
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* ===== FOOTER STYLES ===== */
+/*==============================================================================
+  8. FOOTER STYLES (CLEANED UP)
+==============================================================================*/
 main {
   position: relative;
-}
-/* ensure footer always uses custom‑cursor1 as a baseline */
-.footer,
-.footer * {
-  cursor:
-    url("/png/cursors/cursor.png") 8 8,
-    url("/svg/cursors/cursor.svg") 8 8,
-    auto;
-}
-
-/* clickable things inside footer should always use custom‑cursor2 */
-.footer a,
-.footer a * {
-  cursor:
-    url("/png/cursors/cursor-active2.png") 8 8,
-    url("/svg/cursors/cursor-active2.svg") 8 8,
-    pointer !important;
 }
 
 .footer {
@@ -1451,31 +1214,14 @@ main {
   font-family: "Inter", sans-serif;
   font-size: 0.75rem;
   transition: all 0.3s ease;
-  background: rgba(245, 245, 245, 0.788);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.4);
-}
-
-div.footer-bottom {
-  margin-top: 100px;
-  align-items: center;
-  text-align: center;
-  height: 200px;
-  font-size: 0.65rem;
-  color: rgba(0, 0, 0, 0.726);
-  margin-top: 8px;
+  background: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  color: var(--footer-text);
 }
 
 .footer:hover {
-  background: rgba(245, 245, 245, 0.911);
-  color: rgba(255, 255, 255, 0.7);
-  border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-a.footer-back-to-top svg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: var(--footer-hover-bg);
+  border-top-color: var(--footer-hover-border);
 }
 
 .footer-content {
@@ -1486,6 +1232,15 @@ a.footer-back-to-top svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+div.footer-bottom {
+  margin-top: 8px;
+  align-items: center;
+  text-align: center;
+  height: 200px;
+  font-size: 0.65rem;
+  color: rgba(0, 0, 0, 0.726);
 }
 
 /* Left Section - Credits */
@@ -1499,7 +1254,7 @@ a.footer-back-to-top svg {
   font-weight: 500;
   font-size: 1.2rem;
   letter-spacing: 0.05em;
-  color: rgba(102, 102, 102, 0.699);
+  color: var(--footer-logo);
   transition: color 0.2s ease;
 }
 
@@ -1510,22 +1265,14 @@ a.footer-back-to-top svg {
 .footer-divider {
   width: 1px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.footer-divider {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--footer-divider);
 }
 
 .footer-tagline {
   font-size: 0.7rem;
   font-weight: 300;
-  color: rgba(102, 102, 102, 0.6);
+  color: var(--footer-tagline);
   font-style: italic;
-}
-
-.footer-tagline {
-  color: rgba(0, 0, 0, 0.3);
 }
 
 /* Center Section - Navigation Links */
@@ -1540,16 +1287,8 @@ a.footer-back-to-top svg {
   text-decoration: none;
 }
 
-a svg {
-  cursor: pointer;
-  cursor:
-    url("/png/cursors/cursor-active2.png") 8 8,
-    url("/svg/cursors/cursor-active2.svg") 8 8,
-    pointer !important;
-}
-
 .footer-nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--footer-nav);
   text-decoration: none;
   font-size: 0.7rem;
   font-weight: 400;
@@ -1558,10 +1297,6 @@ a svg {
   transition: all 0.2s ease;
   padding: 4px 0;
   position: relative;
-}
-
-.footer-nav-link {
-  color: rgba(0, 0, 0, 0.4);
 }
 
 .footer-nav-link::after {
@@ -1595,15 +1330,11 @@ a svg {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--footer-email);
   text-decoration: none;
   font-size: 0.7rem;
   transition: color 0.2s ease;
   padding: 4px 0;
-}
-
-.footer-email {
-  color: rgba(0, 0, 0, 0.4);
 }
 
 .footer-email:hover {
@@ -1637,41 +1368,29 @@ a svg {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--footer-social-bg);
   transition: all 0.2s ease;
   opacity: 0.6;
 }
 
-.footer-social-link {
-  background: rgba(0, 0, 0, 0.02);
-}
-
 .footer-social-link:hover {
   opacity: 1;
-  background: rgba(74, 111, 165, 0.1);
+  background: var(--footer-social-hover);
   transform: translateY(-2px);
 }
 
 .footer-social-icon {
   width: 16px;
   height: 16px;
-  filter: brightness(0.8);
-  transition: filter 0.2s ease;
-}
-
-.footer-social-link:hover .footer-social-icon {
-  filter: brightness(1);
-}
-
-.footer-social-icon {
   filter: brightness(0.4);
+  transition: filter 0.2s ease;
 }
 
 .footer-social-link:hover .footer-social-icon {
   filter: brightness(0.2);
 }
 
-/* Back to Top Button (optional addition) */
+/* Back to Top Button */
 .footer-back-to-top {
   display: flex;
   align-items: center;
@@ -1679,16 +1398,10 @@ a svg {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(255, 255, 255, 0.4);
+  background: var(--footer-top-bg);
+  color: var(--footer-top);
   transition: all 0.2s ease;
-  cursor: pointer;
   margin-left: 10px;
-}
-
-.footer-back-to-top {
-  background: rgba(0, 0, 0, 0.02);
-  color: rgba(0, 0, 0, 0.3);
 }
 
 .footer-back-to-top:hover {
@@ -1705,70 +1418,15 @@ a svg {
   fill: none;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .footer-content {
-    padding: 0 20px;
-  }
-
-  .footer-nav {
-    gap: 15px;
-  }
-
-  .footer-tagline {
-    display: none;
-  }
+a.footer-back-to-top svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (max-width: 700px) {
-  .footer {
-    height: auto;
-    padding: 12px 0;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 15px;
-  }
-
-  .footer-credits {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .footer-nav {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .footer-right {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .footer-divider {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-nav {
-    gap: 12px;
-  }
-
-  .footer-nav-link {
-    font-size: 0.65rem;
-  }
-
-  .footer-email {
-    font-size: 0.65rem;
-  }
-}
-
-/* ===== LOADING SCREEN ===== */
+/*==============================================================================
+  9. LOADING SCREEN
+==============================================================================*/
 .loading-screen {
   position: fixed;
   top: 0;
@@ -1801,11 +1459,6 @@ a svg {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.dark-theme .loading-content {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/* Loading Spinner */
 .loading-spinner {
   width: 60px;
   height: 60px;
@@ -1816,7 +1469,6 @@ a svg {
   animation: spin 1s linear infinite;
 }
 
-/* Loading Text */
 .loading-text {
   font-size: 1.5rem;
   color: var(--color-text);
@@ -1824,7 +1476,6 @@ a svg {
   font-weight: 500;
 }
 
-/* Progress Bar */
 .loading-progress {
   width: 100%;
   background: rgba(255, 255, 255, 0.1);
@@ -1849,7 +1500,9 @@ a svg {
   font-family: monospace;
 }
 
-/* ===== ANIMATIONS ===== */
+/*==============================================================================
+  10. ANIMATIONS
+==============================================================================*/
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -1887,225 +1540,13 @@ a svg {
   }
 }
 
-/* Card hover effects */
 .navbar-card:hover {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== DARK THEME OVERRIDES ===== */
-.dark-theme .navbar-card {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .navbar-main {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.dark-theme .navbar-secondary {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.dark-theme .shuffle-button {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .nav-item {
-  background: rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-.dark-theme .nav-item.main-home {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-  /* Navbar */
-  .navbar {
-    top: 15px;
-    left: 15px;
-  }
-
-  .navbar-cards-container {
-    width: 320px;
-    height: 120px;
-  }
-
-  .navbar-card {
-    height: 100px;
-  }
-
-  .navbar-card-content {
-    padding: 15px;
-    gap: 6px;
-  }
-
-  .nav-item {
-    padding: 10px 12px;
-    min-width: 60px;
-  }
-
-  .nav-item.main-home {
-    padding: 12px 15px;
-    margin-right: 15px;
-  }
-
-  .shuffle-button {
-    width: 40px;
-    height: 40px;
-    top: -15px;
-    right: -15px;
-  }
-
-  .nav-toggle {
-    right: 25px;
-  }
-
-  /* Mobile expanded state */
-  .navbar-cards-container.mobile-expanded .navbar-card {
-    position: relative;
-    margin-bottom: 10px;
-    height: auto;
-    min-height: 80px;
-  }
-
-  .navbar-cards-container.mobile-expanded .navbar-card-content {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .navbar-cards-container.mobile-expanded .nav-item {
-    margin: 5px;
-  }
-
-  /* Hero */
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.2rem;
-  }
-
-  /* Sections */
-  .section {
-    padding: 60px 0;
-  }
-
-  .section-content {
-    padding: 20px;
-    margin: 0 20px;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .section-text {
-    font-size: 1rem;
-  }
-
-  /* Loading Screen */
-  .loading-content {
-    max-width: 300px;
-    padding: 1.5rem;
-  }
-
-  .loading-spinner {
-    width: 50px;
-    height: 50px;
-  }
-
-  .loading-text {
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  /* Navbar */
-  .navbar {
-    top: 10px;
-    left: 10px;
-  }
-
-  .navbar-cards-container {
-    width: 280px;
-    height: 100px;
-  }
-
-  .navbar-card {
-    height: 80px;
-    border-radius: 15px;
-  }
-
-  .navbar-card-content {
-    padding: 10px;
-    gap: 4px;
-  }
-
-  .nav-item {
-    padding: 8px 10px;
-    min-width: 50px;
-    border-radius: 10px;
-  }
-
-  .nav-item.main-home {
-    padding: 10px 12px;
-    margin-right: 10px;
-  }
-
-  .nav-icon {
-    width: var(--nav-icon-size-mobile);
-    height: var(--nav-icon-size-mobile);
-  }
-
-  .nav-text {
-    font-size: 10px;
-  }
-
-  .nav-item.main-home .nav-icon {
-    font-size: 18px;
-  }
-
-  .nav-item.main-home .nav-text {
-    font-size: 14px;
-  }
-
-  .shuffle-button {
-    width: 36px;
-    height: 36px;
-    top: -12px;
-    right: -12px;
-  }
-
-  .shuffle-button svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .nav-toggle {
-    right: 20px;
-  }
-
-  /* Hide text on very small screens */
-  .nav-text {
-    display: none;
-  }
-
-  .nav-item.main-home .nav-text {
-    display: block;
-  }
-
-  /* Hero */
-  .hero-title {
-    font-size: 2rem;
-  }
-}
-
-/* CRT Effect Overlay to make it look more like a wii application*/
+/*==============================================================================
+  11. CRT OVERLAY EFFECT (PRESERVED - DO NOT MODIFY)
+==============================================================================*/
 .crt-overlay {
   position: fixed;
   top: 0;
@@ -2154,7 +1595,6 @@ a svg {
   pointer-events: none;
 }
 
-/* CRT scanline animation */
 @keyframes scanline {
   0% {
     background-position: 0 0;
@@ -2166,4 +1606,365 @@ a svg {
 
 .crt-overlay {
   animation: scanline 10s linear infinite;
+}
+
+/*==============================================================================
+  12. RESPONSIVE DESIGN
+==============================================================================*/
+@media (max-width: 900px) {
+  .footer-content {
+    padding: 0 20px;
+  }
+
+  .footer-nav {
+    gap: 15px;
+  }
+
+  .footer-tagline {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-item {
+    padding: 20px;
+  }
+
+  .timeline-item:hover {
+    transform: translateX(5px);
+  }
+
+  /* Navbar */
+  .navbar {
+    top: 15px;
+    left: 15px;
+  }
+
+  .navbar-cards-container {
+    width: 320px;
+    height: 120px;
+  }
+
+  .navbar-card {
+    height: 100px;
+  }
+
+  .navbar-card-content {
+    padding: 15px;
+    gap: 6px;
+  }
+
+  .nav-item {
+    padding: 10px 12px;
+    min-width: 60px;
+  }
+
+  .nav-item.main-home {
+    padding: 12px 15px;
+    margin-right: 15px;
+  }
+
+  .shuffle-button {
+    width: 40px;
+    height: 40px;
+    top: -15px;
+    right: -15px;
+  }
+
+  .nav-toggle {
+    right: 25px;
+  }
+
+  .navbar-cards-container.mobile-expanded .navbar-card {
+    position: relative;
+    margin-bottom: 10px;
+    height: auto;
+    min-height: 80px;
+  }
+
+  .navbar-cards-container.mobile-expanded .navbar-card-content {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar-cards-container.mobile-expanded .nav-item {
+    margin: 5px;
+  }
+
+  /* Hero */
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  /* Sections */
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-content {
+    padding: 20px;
+    margin: 0 20px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-text {
+    font-size: 1rem;
+  }
+
+  /* Projects */
+  .project-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .project-image-container {
+    width: 160px;
+    height: 160px;
+  }
+
+  .project-header {
+    justify-content: center;
+  }
+
+  .project-links {
+    justify-content: center;
+  }
+
+  /* Archive */
+  .archive-card-content {
+    gap: 1rem;
+  }
+
+  .archive-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .archive-svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .archive-title {
+    font-size: 1.1rem;
+  }
+
+  .archive-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .archive-meta {
+    font-size: 0.8rem;
+  }
+
+  /* Resume */
+  .resume-download-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .format-buttons {
+    flex-wrap: wrap;
+  }
+
+  /* Loading Screen */
+  .loading-content {
+    max-width: 300px;
+    padding: 1.5rem;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .loading-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer {
+    height: auto;
+    padding: 12px 0;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 15px;
+    height: auto;
+  }
+
+  .footer-credits {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-nav {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .skill-category {
+    padding: 20px;
+  }
+
+  /* Navbar */
+  .navbar {
+    top: 10px;
+    left: 10px;
+  }
+
+  .navbar-cards-container {
+    width: 280px;
+    height: 100px;
+  }
+
+  .navbar-card {
+    height: 80px;
+    border-radius: 15px;
+  }
+
+  .navbar-card-content {
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .nav-item {
+    padding: 8px 10px;
+    min-width: 50px;
+    border-radius: 10px;
+  }
+
+  .nav-item.main-home {
+    padding: 10px 12px;
+    margin-right: 10px;
+  }
+
+  .nav-icon {
+    width: var(--nav-icon-size-mobile);
+    height: var(--nav-icon-size-mobile);
+  }
+
+  .nav-text {
+    font-size: 10px;
+    display: none;
+  }
+
+  .nav-item.main-home .nav-icon {
+    font-size: 18px;
+  }
+
+  .nav-item.main-home .nav-text {
+    font-size: 14px;
+    display: block;
+  }
+
+  .shuffle-button {
+    width: 36px;
+    height: 36px;
+    top: -12px;
+    right: -12px;
+  }
+
+  .shuffle-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-toggle {
+    right: 20px;
+  }
+
+  /* Hero */
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  /* Projects */
+  .project-image-container {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Footer */
+  .footer-nav {
+    gap: 12px;
+  }
+
+  .footer-nav-link {
+    font-size: 0.65rem;
+  }
+
+  .footer-email {
+    font-size: 0.65rem;
+  }
+
+  /* Archive */
+  .archive-card-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .archive-info {
+    text-align: center;
+    width: 100%;
+  }
+
+  .archive-external {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .archive-link-card {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  /* Resume */
+  .resume-download-btn {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 }
