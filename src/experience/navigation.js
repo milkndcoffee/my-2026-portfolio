@@ -8,7 +8,7 @@ export default class Navigation {
     this.secondaryNavItems = document.querySelectorAll(
       ".navbar-secondary .nav-item",
     );
-    this.navToggle = document.querySelector(".nav-toggle");
+    // Remove navToggle reference
     this.cardsContainer = document.querySelector(".navbar-cards-container");
     this.shuffleButton = document.getElementById("shuffleNav");
     this.isShuffled = false;
@@ -29,9 +29,6 @@ export default class Navigation {
     this.navItems.forEach((item) => {
       item.addEventListener("click", (e) => {
         e.preventDefault();
-
-        // ALWAYS allow clicking on any nav item
-        // The click itself will trigger scroll which then updates the navbar
         this.scrollToSection(item.dataset.section);
       });
     });
@@ -44,12 +41,7 @@ export default class Navigation {
       });
     }
 
-    // Mobile toggle
-    if (this.navToggle) {
-      this.navToggle.addEventListener("click", () => {
-        this.toggleMobileMenu();
-      });
-    }
+    // Remove mobile toggle event listener
 
     // Handle window resize
     window.addEventListener("resize", () => {
@@ -92,6 +84,7 @@ export default class Navigation {
 
     this.animateShuffleButton();
   }
+
   setFrontNavbar(navbarName) {
     // Remove front class from both
     this.navbarMain.classList.remove("front");
@@ -146,29 +139,11 @@ export default class Navigation {
     }
   }
 
-  toggleMobileMenu() {
-    this.navToggle.classList.toggle("active");
-    this.cardsContainer.classList.toggle("mobile-expanded");
-
-    if (this.cardsContainer.classList.contains("mobile-expanded")) {
-      // Expand cards for mobile
-      this.cardsContainer.style.height = "auto";
-      this.cardsContainer.style.minHeight = "200px";
-      // Hide shuffle button when expanded
-      this.shuffleButton.style.display = "none";
-    } else {
-      // Collapse cards
-      this.cardsContainer.style.height = "";
-      this.cardsContainer.style.minHeight = "";
-      // Show shuffle button
-      this.shuffleButton.style.display = "flex";
-    }
-  }
+  // Remove toggleMobileMenu method entirely
 
   handleResize() {
     if (window.innerWidth > 768) {
-      // Desktop: reset mobile states
-      this.navToggle.classList.remove("active");
+      // Desktop: reset any mobile states
       this.cardsContainer.classList.remove("mobile-expanded");
       this.cardsContainer.style.height = "";
       this.cardsContainer.style.minHeight = "";
@@ -180,7 +155,7 @@ export default class Navigation {
         if (text) text.style.display = "block";
       });
     } else {
-      // Mobile: handle text display
+      // Mobile: handle text display based on expanded state
       const isExpanded =
         this.cardsContainer.classList.contains("mobile-expanded");
       this.navItems.forEach((item) => {
