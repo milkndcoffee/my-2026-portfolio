@@ -2217,12 +2217,16 @@ a.footer-back-to-top svg {
   }
 
   /* Home */
-  #home h1, #home p {
-    text-shadow: 2px 2px 4px #e2dfdff3, /* Top-left shadow */
-      -2px -2px 4px #e2dfdff3, /* Bottom-right shadow */
-      2px -2px 4px #e2dfdff3, /* Top-right shadow */
-      -2px 2px 4px #e2dfdff3; /* Bottom-left shadow */
-    
+  #home.section .section-content {
+    background: rgba(224, 224, 224, 0.514);
+  }
+  #home h1,
+  #home p {
+    text-shadow:
+      2px 2px 4px #e2dfdfce,
+      -2px -2px 4px #e2dfdfce,
+      2px -2px 4px #e2dfdfce,
+      -2px 2px 4px #e2dfdfce;
   }
 
   .project-header {
