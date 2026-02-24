@@ -27,7 +27,7 @@ export default class Camera {
     this.applyViewOffset();
 
     // Setup GUI AFTER everything is initialized
-    this.setupDebugGUI();
+    // this.setupDebugGUI();
   }
 
   createPerspectiveCamera() {

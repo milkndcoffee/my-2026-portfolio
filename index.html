@@ -7,10 +7,13 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body class="light-theme">
+    <!-- ========== GLOBAL OVERLAYS ========== -->
     <div class="crt-overlay"></div>
-    <!-- Navigation Bar -->
+
+    <!-- ========== NAVIGATION ========== -->
+    <!-- Main Navigation Bar with Dual-Layer Card System -->
     <nav class="navbar">
-      <!-- Shuffle Button (Fixed position) -->
+      <!-- Shuffle Button - Toggles between main and secondary nav cards -->
       <button class="shuffle-button" id="shuffleNav">
         <img
           src="/svg/icons/next-nav.svg"
@@ -20,11 +23,25 @@
         />
       </button>
 
-      <div class="navbar-cards-container">
-        <!-- Main Navbar Card (Default: Front) -->
+      <!-- Mobile Hamburger Toggle - ONLY VISIBLE ON MOBILE -->
+      <button class="mobile-nav-toggle" id="mobileNavToggle">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="navbar-cards-container" id="navbarCardsContainer">
+        <!-- PRIMARY NAVIGATION CARD (Main Sections) -->
         <div class="navbar-card navbar-main">
           <div class="navbar-card-content">
-            <!-- Logo/Home -->
+            <!-- Home -->
             <a href="#" class="nav-item main-home active" data-section="home">
               <img class="nav-icon" src="/svg/icons/nav-home.svg" alt="Home" />
               <span class="nav-text">Home</span>
@@ -59,6 +76,7 @@
               />
               <span class="nav-text">Experience</span>
             </a>
+
             <!-- Contact -->
             <a href="#" class="nav-item" data-section="contact">
               <img
@@ -71,7 +89,7 @@
           </div>
         </div>
 
-        <!-- Secondary Navbar Card (Default: Behind) -->
+        <!-- SECONDARY NAVIGATION CARD (Additional Sections) -->
         <div class="navbar-card navbar-secondary">
           <div class="navbar-card-content">
             <!-- Resume -->
@@ -96,24 +114,31 @@
           </div>
         </div>
       </div>
+
+      <!-- Overlay for expanded mode (closes navbar when tapped) -->
+      <div class="navbar-overlay" id="navbarOverlay"></div>
     </nav>
 
-    <!-- Rolling Background -->
+    <!-- ========== BACKGROUND ELEMENTS ========== -->
+    <!-- Rolling Geometric Background -->
     <script type="module" src="/src/rolling-background.js"></script>
 
-    <!-- 3D behind UI  -->
+    <!-- 3D Experience Canvas (Three.js) -->
     <div class="experience">
       <canvas class="experience-canvas"></canvas>
     </div>
 
+    <!-- ========== MAIN CONTENT ========== -->
     <main>
-      <!-- Left side of the screen will contain majority of the portfolio information  -->
+      <!-- Left Content Column - Houses all section content -->
       <div class="left-content">
+        <!-- HOME SECTION -->
         <section id="home" class="section">
           <div class="section-content">
             <h1>Adrian De Guzman</h1>
             <p>QA Analyst | Software Developer | 3D Artist | Tech Enthusiast</p>
             <br />
+            <!-- Social Media Links -->
             <div class="social-links-container">
               <a
                 href="https://www.linkedin.com/in/adrian-de-guzman-86ba751a8/"
@@ -136,10 +161,11 @@
           </div>
         </section>
 
-        <!-- About Section -->
+        <!-- ABOUT SECTION -->
         <section id="about" class="section">
           <div class="section-content">
             <h1>About Me</h1>
+            <!-- Bio -->
             <p class="about-text">
               Based in the Jersey City area, I'm a detail-oriented Computer
               Science graduate from Lewis University with a passion for ensuring
@@ -149,7 +175,10 @@
               giving me a unique perspective on building applications that are
               both functional and visually engaging.
             </p>
+
+            <!-- Skills Grid - 3 Columns -->
             <div class="skills-grid">
+              <!-- Technical Languages -->
               <div class="skill-category">
                 <h3>Languages</h3>
                 <ul>
@@ -162,6 +191,7 @@
                 </ul>
               </div>
 
+              <!-- Frameworks & Tools -->
               <div class="skill-category">
                 <h3>Frameworks & Tools</h3>
                 <ul>
@@ -175,6 +205,7 @@
                 </ul>
               </div>
 
+              <!-- QA & Data Skills -->
               <div class="skill-category">
                 <h3>QA & Data</h3>
                 <ul>
@@ -187,6 +218,8 @@
                 </ul>
               </div>
             </div>
+
+            <!-- Closing Bio -->
             <p class="about-text">
               Beyond code, I'm also a 3D artist and tech enthusiast who loves
               exploring the intersection of technology and creativity, which is
@@ -195,12 +228,12 @@
           </div>
         </section>
 
-        <!-- Projects Section -->
+        <!-- PROJECTS SECTION -->
         <section id="projects" class="section">
           <div class="section-content">
             <h1>Projects</h1>
             <div class="projects-grid">
-              <!-- Portfolio 2026 - Current Project -->
+              <!-- Project 1: 2026 Portfolio (Current) -->
               <div class="project-card">
                 <div class="project-image-container">
                   <img
@@ -241,7 +274,7 @@
                 </div>
               </div>
 
-              <!-- my-3d-room - First Threejs Project -->
+              <!-- Project 2: my-3d-room (First Three.js Project) -->
               <div class="project-card">
                 <div class="project-image-container">
                   <img
@@ -292,7 +325,7 @@
                 </div>
               </div>
 
-              <!-- For Additional Project -->
+              <!-- Project 3 Template (Commented - Available for future use) -->
               <!-- <div class="project-card">
                 <div class="project-image-container">
                   <img
@@ -328,11 +361,12 @@
           </div>
         </section>
 
-        <!-- Experience Section -->
+        <!-- EXPERIENCE SECTION (Timeline) -->
         <section id="experience" class="section">
           <div class="section-content">
             <h1>Experience</h1>
             <div class="timeline">
+              <!-- Experience 1: FDM Group @ TD Bank -->
               <div class="timeline-item">
                 <div class="timeline-header">
                   <h2>Consultant (QA Analyst – Tosca Automation)</h2>
@@ -360,6 +394,7 @@
                 </ul>
               </div>
 
+              <!-- Experience 2: Wiley Edge -->
               <div class="timeline-item">
                 <div class="timeline-header">
                   <h2>Mobile Android Developer Trainee</h2>
@@ -385,6 +420,7 @@
                 </ul>
               </div>
 
+              <!-- Experience 3: RaterLabs -->
               <div class="timeline-item">
                 <div class="timeline-header">
                   <h2>Yukon - Search Engine Evaluator</h2>
@@ -414,30 +450,50 @@
           </div>
         </section>
 
-        <!-- Contact Section -->
+        <!-- CONTACT SECTION -->
         <section id="contact" class="section">
           <div class="section-content">
             <h1>Contact</h1>
+            <!-- Intro Text -->
             <p>
-              If you'd like to get in touch you can find me at <br />
-              <a href='&#109;a&#105;lto&#58;&#104;e%6C%&#54;Co&#64;a&#100;eg&#117;%7&#65;&#109;&#46;&#99;%6Fm'>he&#108;&#108;o&#64;ade&#103;u&#122;m&#46;com</a>
+              I'm currently open to new opportunities and collaborations in QA,
+              software development, or creative tech projects.
             </p>
+            <p>If you would like to get in touch you can find me at</p>
+
+            <!-- Email Button -->
+            <div class="contact-link">
+              <a
+                href="&#109;a&#105;lto&#58;&#104;e%6C%&#54;Co&#64;a&#100;eg&#117;%7&#65;&#109;&#46;&#99;%6Fm"
+                class="contact-email-btn"
+              >
+                <span class="btn-icon">✉️</span>
+                <span class="btn-text"
+                  >he&#108;&#108;o&#64;ade&#103;u&#122;m&#46;com</span
+                >
+                <span class="btn-icon">→</span>
+              </a>
+              <p></p>
+            </div>
           </div>
         </section>
 
-        <!-- Resume Section -->
+        <!-- RESUME SECTION -->
         <section id="resume" class="section">
           <div class="section-content">
             <h1>Resume</h1>
 
             <div class="resume-preview">
+              <!-- Description -->
               <p class="resume-description">
                 Download my resume to learn more about my professional
                 experience, and technical skills. Available in PDF, and DOCX for
                 your convenience.
               </p>
 
+              <!-- Download Buttons Container -->
               <div class="resume-download-container">
+                <!-- Primary PDF Download -->
                 <a
                   href="/resume/Adrian_DeGuzman_Resume.pdf"
                   class="resume-download-btn"
@@ -448,6 +504,7 @@
                   <span class="btn-icon">⬇️</span>
                 </a>
 
+                <!-- Alternative Formats -->
                 <div class="resume-formats">
                   <p class="formats-label">Also available in:</p>
                   <div class="format-buttons">
@@ -462,12 +519,12 @@
               </div>
             </div>
 
-            <!-- Last Updated Info (Optional) -->
+            <!-- Last Updated Info -->
             <p class="resume-updated">Last updated: February 2026</p>
           </div>
         </section>
 
-        <!-- Archive Section -->
+        <!-- ARCHIVE SECTION -->
         <section id="archive" class="section">
           <div class="section-content">
             <h1>Archive</h1>
@@ -489,13 +546,13 @@
               rel="noopener noreferrer"
             >
               <div class="archive-card-content">
-                <!-- Middle: Text content -->
+                <!-- Text Content -->
                 <div class="archive-info">
                   <h3 class="archive-title">2021 Portfolio Archive</h3>
                   <span class="archive-meta">View Archive →</span>
                 </div>
 
-                <!-- Right side: External link indicator -->
+                <!-- External Link Icon -->
                 <div class="archive-external">
                   <svg
                     class="external-icon"
@@ -519,7 +576,7 @@
         </section>
       </div>
 
-      <!-- Footer -->
+      <!-- ========== FOOTER ========== -->
       <footer class="footer">
         <div class="footer-content">
           <!-- Left: Credits Section -->
@@ -550,7 +607,7 @@
             >
           </div>
 
-          <!-- Right: Social + Email (Option 2) -->
+          <!-- Right: Social + Email -->
           <div class="footer-right">
             <!-- Email -->
             <a href="mailto:hello@adeguzm.com" class="footer-email">
@@ -590,6 +647,8 @@
                 />
               </a>
             </div>
+
+            <!-- Back to Top Button -->
             <a
               href="#"
               class="footer-back-to-top"
@@ -602,16 +661,22 @@
             </a>
           </div>
         </div>
+
+        <!-- Copyright -->
         <div class="footer-bottom">
           <span>&copy; 2026 Adrian De Guzman. All rights reserved.</span>
         </div>
       </footer>
     </main>
 
-    <!-- Main JavaScript -->
+    <!-- ========== SCRIPTS ========== -->
+    <!-- Main JavaScript (Navigation, Interactions, Three.js) -->
     <script type="module" src="/src/main.js"></script>
 
-    <!-- Loading Screen -->
+    <!-- Mobile Navigation (separate for better organization) -->
+    <script src="/src/mobile-nav.js"></script>
+
+    <!-- ========== LOADING SCREEN ========== -->
     <div class="loading-screen">
       <div class="loading-content">
         <div class="loading-spinner"></div>

@@ -154,18 +154,18 @@ export default class Navigation {
         const text = item.querySelector(".nav-text");
         if (text) text.style.display = "block";
       });
-    } else {
-      // Mobile: handle text display based on expanded state
-      const isExpanded =
-        this.cardsContainer.classList.contains("mobile-expanded");
-      this.navItems.forEach((item) => {
-        const text = item.querySelector(".nav-text");
-        if (text && !isExpanded && !item.classList.contains("main-home")) {
-          text.style.display = "none";
-        } else if (text) {
-          text.style.display = "block";
-        }
-      });
+      // } else {
+      //   // Mobile: handle text display based on expanded state
+      //   const isExpanded =
+      //     this.cardsContainer.classList.contains("mobile-expanded");
+      //   this.navItems.forEach((item) => {
+      //     const text = item.querySelector(".nav-text");
+      //     if (text && !isExpanded && !item.classList.contains("main-home")) {
+      //       text.style.display = "none";
+      //     } else if (text) {
+      //       text.style.display = "block";
+      //     }
+      //   });
     }
   }
 

@@ -1,8 +1,10 @@
 import "./style.css";
 import Navigation from "./experience/navigation.js";
 import RollingBackground from "./rolling-background.js";
+import MobileNavigation from "./mobile-nav.js"; // Note: default import, no curly braces
 
 let rollingBackground;
+let mobileNav; // Store instance if needed
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM loaded");
@@ -15,8 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const navigation = new Navigation();
   console.log("Navigation initialized");
 
+  // Initialize mobile navigation
+  mobileNav = new MobileNavigation(); // Creates instance, auto-initializes
+  console.log("Mobile navigation initialized");
+
   // Store for debugging
   window.navigation = navigation;
+  window.mobileNav = mobileNav; // Optional: store for debugging
 
   // Load experience
   import("./experience/experience.js").then(({ default: Experience }) => {
@@ -43,3 +50,4 @@ document.addEventListener("visibilitychange", () => {
 // Export for debugging
 window.Navigation = Navigation;
 window.RollingBackground = RollingBackground;
+window.MobileNavigation = MobileNavigation;
