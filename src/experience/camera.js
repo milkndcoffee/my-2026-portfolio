@@ -9,6 +9,7 @@ export default class Camera {
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
+    
 
     // Default camera coordinates
     this.defaultPosition = new THREE.Vector3(0, 3, 15);
@@ -19,11 +20,19 @@ export default class Camera {
     this.setOrbitControls();
 
     // Initialize viewOffset
+    if (this.sizes.width < 1920){
+      this.viewOffset = {
+        enabled: true,
+        offsetX: -this.sizes.width * 0.15, // Shift left by 15% of screen width
+        offsetY: 0,
+      };
+    } else {
     this.viewOffset = {
       enabled: true,
       offsetX: -450,
       offsetY: 0,
     };
+  }
     this.applyViewOffset();
 
     // Setup GUI AFTER everything is initialized

@@ -36,14 +36,15 @@ export default class Object3D {
   setModel() {
     // Position & scale
     const { width } = this.sizes;
-    const scale = width * 0.0002;
+    // const scale = width * 0.0002;
+    const scale = 1920 * 0.0002;
     this.actualObject.scale.set(scale, scale, scale);
     this.actualObject.position.set(-5.25, 0, 0);
 
     // Responsive adjustments
-    if (width < 1400) this.adjustPosition(0.15, 0, 1, 9.5);
-    if (width < 960) this.adjustPosition(0.15, 0, 1, 10);
-    if (width < 600) this.adjustPosition(0.12, 0, -0.5, 10);
+    // if (width < 1400) this.adjustPosition(0.15, 0, 1, 9.5);
+    // if (width < 960) this.adjustPosition(0.15, 0, 1, 10);
+    // if (width < 600) this.adjustPosition(0.12, 0, -0.5, 10);
 
     // Process meshes (shadows only, no hover tracking)
     this.actualObject.traverse((child) => {
