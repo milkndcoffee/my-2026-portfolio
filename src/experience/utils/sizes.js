@@ -4,32 +4,42 @@ export default class Sizes extends EventEmitter {
   constructor() {
     super();
 
+    // ========== INITIAL DIMENSIONS ==========
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.aspect = this.width / this.height;
     this.pixelRatio = Math.min(window.devicePixelRatio, 2);
     this.frustrum = 5;
 
-    // Handle resize
-    window.addEventListener("resize", () => {
-      this.width = window.innerWidth;
-      this.height = window.innerHeight;
-      this.aspect = this.width / this.height;
-      this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+    // ========== EVENT LISTENERS ==========
+    this.setupResizeListener();
+    this.setupOrientationListener();
+  }
 
+  // ========== RESIZE HANDLING ==========
+  setupResizeListener() {
+    window.addEventListener("resize", () => {
+      this.updateDimensions();
       this.emit("resize");
     });
+  }
 
-    // Handle orientation change
+  // ========== ORIENTATION HANDLING ==========
+  setupOrientationListener() {
     window.addEventListener("orientationchange", () => {
+      // Small delay to ensure dimensions are updated after orientation change
       setTimeout(() => {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.aspect = this.width / this.height;
-        this.pixelRatio = Math.min(window.devicePixelRatio, 2);
-
+        this.updateDimensions();
         this.emit("resize");
       }, 100);
     });
+  }
+
+  // ========== DIMENSION UPDATE UTILITY ==========
+  updateDimensions() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.aspect = this.width / this.height;
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
   }
 }

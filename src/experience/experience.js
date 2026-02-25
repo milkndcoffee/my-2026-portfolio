@@ -14,36 +14,35 @@ import World from "./world/world.js";
 
 export default class Experience {
   static instance;
+
   constructor(canvas) {
-  
-    // Singleton pattern
+    // ========== SINGLETON PATTERN ==========
     if (Experience.instance) {
       return Experience.instance;
     }
-
     Experience.instance = this;
 
     console.log("Experience initialized");
 
-    // Canvas and scene
+    // ========== CORE SETUP ==========
     this.canvas = canvas;
     this.scene = new THREE.Scene();
 
-    // Utils
+    // ========== UTILITIES ==========
     this.time = new Time();
     this.sizes = new Sizes();
     this.resources = new Resources(assets);
 
-    // Components
+    // ========== COMPONENTS ==========
     this.theme = new Theme();
     this.camera = new Camera();
     this.renderer = new Renderer();
 
-    // World and preloader
+    // ========== WORLD & PRELOADER ==========
     this.world = new World();
     this.preloader = new Preloader();
 
-    // Event listeners
+    // ========== EVENT LISTENERS ==========
     this.sizes.on("resize", () => {
       this.resize();
     });
@@ -53,6 +52,7 @@ export default class Experience {
     });
   }
 
+  // ========== RESIZE HANDLING ==========
   resize() {
     this.camera.resize();
     this.renderer.resize();
@@ -61,6 +61,7 @@ export default class Experience {
     }
   }
 
+  // ========== UPDATE LOOP ==========
   update() {
     this.camera.update();
     this.renderer.update();

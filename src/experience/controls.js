@@ -6,6 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class Controls {
   constructor() {
+    // ========== DEPENDENCIES ==========
     this.experience = Experience.instance;
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
@@ -15,7 +16,7 @@ export default class Controls {
 
     GSAP.registerPlugin(ScrollTrigger);
 
-    // Camera positions for each section
+    // ========== CAMERA STATES ==========
     this.cameraStates = {
       home: {
         position: this.camera.defaultPosition,
@@ -54,12 +55,12 @@ export default class Controls {
       },
     };
 
-    // ===== FIXED ANIMATION CONFIG =====
+    // ========== ANIMATION CONFIG ==========
     this.sectionAnimations = {
       home: {
         type: "simple",
         idle: "idleComputer",
-        idleLoop: true, // Explicitly set to loop
+        idleLoop: true,
         delay: 0.2,
         idleCrossfadeDuration: 0.4,
         speed: 1,
@@ -67,9 +68,9 @@ export default class Controls {
       about: {
         type: "complex",
         entry: "about1",
-        entryClamp: true, // Entry plays once and clamps
+        entryClamp: true,
         idle: "about2",
-        idleLoop: true, // About2 should loop!
+        idleLoop: true,
         delay: 0.3,
         entryCrossfadeDuration: 0.2,
         idleCrossfadeDuration: 0.5,
@@ -91,7 +92,7 @@ export default class Controls {
         entry: "focus_in",
         entryClamp: true,
         idle: "focus_type",
-        idleLoop: true, // focus_type should loop!
+        idleLoop: true,
         delay: 0.1,
         entryCrossfadeDuration: 0.4,
         idleCrossfadeDuration: 0.4,
@@ -103,8 +104,8 @@ export default class Controls {
       contact: {
         type: "complex",
         entry: "turn_back",
-        entryClamp: true, // This one clamps
-        idle: "idleComputer", // This will loop (idleComputer)
+        entryClamp: true,
+        idle: "idleComputer",
         idleLoop: true,
         delay: 0.02,
         entryCrossfadeDuration: 0.1,
@@ -129,15 +130,17 @@ export default class Controls {
       },
     };
 
-    // Track current section and animation state
+    // ========== STATE TRACKING ==========
     this.currentSection = null;
     this.isAnimating = false;
     this.currentAnimation = null;
     this.returnTimeout = null;
 
+    // ========== INITIALIZATION ==========
     this.setupScrollTriggers();
   }
 
+  // ========== SCROLL TRIGGERS ==========
   setupScrollTriggers() {
     Object.keys(this.cameraStates).forEach((sectionId) => {
       const section = document.getElementById(sectionId);
@@ -157,6 +160,7 @@ export default class Controls {
     console.log("✅ Scroll triggers set up for all sections");
   }
 
+  // ========== SECTION HANDLING ==========
   handleSectionEnter(sectionId, cameraState) {
     if (this.currentSection === sectionId) return;
 
@@ -190,6 +194,7 @@ export default class Controls {
     );
   }
 
+  // ========== CAMERA ANIMATION ==========
   animateCameraToState(state) {
     GSAP.killTweensOf(this.camera.perspectiveCamera.position);
     GSAP.killTweensOf(this.camera.perspectiveCamera);
@@ -226,37 +231,7 @@ export default class Controls {
     }
   }
 
-  returnToIdleAnimation(
-    returnToIdle = "idleComputer",
-    crossfadeDuration = 0.5,
-  ) {
-    if (!this.object || !this.object.actions) return;
-
-    console.log(`🔄 Returning to idle: ${returnToIdle}`);
-
-    const currentAction = this.findCurrentAnimation();
-    const idleAction = this.object.actions[returnToIdle];
-
-    if (!idleAction) {
-      console.error(`Idle animation "${returnToIdle}" not found`);
-      return;
-    }
-
-    // Configure idle for looping (idleComputer should always loop)
-    idleAction.reset();
-    idleAction.setLoop(THREE.LoopRepeat, Infinity);
-    idleAction.timeScale = 1;
-
-    if (currentAction && currentAction !== idleAction) {
-      currentAction.fadeOut(crossfadeDuration);
-      idleAction.fadeIn(crossfadeDuration);
-    }
-
-    idleAction.play();
-    this.currentAnimation = returnToIdle;
-  }
-
-  // FIXED: Complex animation with proper loop control
+  // ========== COMPLEX SECTION ANIMATION ==========
   animateComplexSection(config) {
     const {
       entry,
@@ -267,8 +242,8 @@ export default class Controls {
       maxDuration,
       returnToIdle = "idleComputer",
       returnCrossfadeDuration = 0.5,
-      entryClamp = true, // Entry animations usually clamp
-      idleLoop = true, // Idle animations usually loop (unless specified otherwise)
+      entryClamp = true,
+      idleLoop = true,
     } = config;
 
     if (!this.object || !this.object.actions) return;
@@ -282,7 +257,7 @@ export default class Controls {
       this.returnTimeout = null;
     }
 
-    // STEP 1: Handle entry animation
+    // Handle entry animation
     const currentAction = this.findCurrentAnimation();
 
     if (currentAction && currentAction !== this.object.actions[entry]) {
@@ -308,7 +283,7 @@ export default class Controls {
 
     this.currentAnimation = entry;
 
-    // STEP 2: Schedule transition to idle
+    // Schedule transition to idle
     const entryDuration = this.getAnimationDuration(entry) || 2.0;
 
     this.idleTimeout = setTimeout(
@@ -327,12 +302,10 @@ export default class Controls {
         idleAction.reset();
 
         if (idleLoop) {
-          // This is a true looping idle animation
           idleAction.setLoop(THREE.LoopRepeat, Infinity);
           idleAction.clampWhenFinished = false;
           console.log(`   ✅ ${idle} set to LOOP`);
         } else {
-          // This is a one-shot animation (like look_back)
           idleAction.setLoop(THREE.LoopOnce, 1);
           idleAction.clampWhenFinished = true;
           console.log(`   ⏱️ ${idle} set to play ONCE`);
@@ -348,8 +321,7 @@ export default class Controls {
         idleAction.fadeIn(idleCrossfadeDuration).play();
         this.currentAnimation = idle;
 
-        // If this idle animation has a max duration and it's not a permanent loop,
-        // schedule return to idleComputer
+        // Schedule return to idleComputer if needed
         if (maxDuration && idle !== "idleComputer") {
           this.returnTimeout = setTimeout(() => {
             this.returnToIdleAnimation(returnToIdle, returnCrossfadeDuration);
@@ -360,7 +332,7 @@ export default class Controls {
     );
   }
 
-  // FIXED: Simple animation with proper loop control
+  // ========== SIMPLE SECTION ANIMATION ==========
   animateSimpleSection(config) {
     const {
       idle,
@@ -369,7 +341,7 @@ export default class Controls {
       maxDuration,
       returnToIdle = "idleComputer",
       returnCrossfadeDuration = 0.5,
-      idleLoop = true, // Default to true for simple sections
+      idleLoop = true,
     } = config;
 
     if (!this.object || !this.object.actions) return;
@@ -395,12 +367,10 @@ export default class Controls {
     idleAction.reset();
 
     if (idleLoop) {
-      // This is a true looping idle animation
       idleAction.setLoop(THREE.LoopRepeat, Infinity);
       idleAction.clampWhenFinished = false;
       console.log(`   ✅ ${idle} set to LOOP`);
     } else {
-      // This is a one-shot animation
       idleAction.setLoop(THREE.LoopOnce, 1);
       idleAction.clampWhenFinished = true;
       console.log(`   ⏱️ ${idle} set to play ONCE`);
@@ -416,12 +386,43 @@ export default class Controls {
     idleAction.play();
     this.currentAnimation = idle;
 
-    // If this animation has a max duration and it's not a permanent loop, schedule return
+    // Schedule return to idleComputer if needed
     if (maxDuration && idle !== "idleComputer") {
       this.returnTimeout = setTimeout(() => {
         this.returnToIdleAnimation(returnToIdle, returnCrossfadeDuration);
       }, maxDuration * 1000);
     }
+  }
+
+  // ========== ANIMATION UTILITIES ==========
+  returnToIdleAnimation(
+    returnToIdle = "idleComputer",
+    crossfadeDuration = 0.5,
+  ) {
+    if (!this.object || !this.object.actions) return;
+
+    console.log(`🔄 Returning to idle: ${returnToIdle}`);
+
+    const currentAction = this.findCurrentAnimation();
+    const idleAction = this.object.actions[returnToIdle];
+
+    if (!idleAction) {
+      console.error(`Idle animation "${returnToIdle}" not found`);
+      return;
+    }
+
+    // Configure idle for looping
+    idleAction.reset();
+    idleAction.setLoop(THREE.LoopRepeat, Infinity);
+    idleAction.timeScale = 1;
+
+    if (currentAction && currentAction !== idleAction) {
+      currentAction.fadeOut(crossfadeDuration);
+      idleAction.fadeIn(crossfadeDuration);
+    }
+
+    idleAction.play();
+    this.currentAnimation = returnToIdle;
   }
 
   findCurrentAnimation() {
@@ -455,12 +456,13 @@ export default class Controls {
       focus_type: 2.2,
       turn_back: 1.5,
       look_back: 1.8,
-      idleComputer: 2.0, // Duration of one cycle of idleComputer
+      idleComputer: 2.0,
     };
 
     return durations[animationName] || 2.0;
   }
 
+  // ========== RESPONSIVE HANDLING ==========
   updateForScreenSize() {
     if (this.sizes.width < 768) {
       this.cameraStates.about.position.set(1.5, 1.2, 12);
@@ -471,6 +473,7 @@ export default class Controls {
     }
   }
 
+  // ========== PUBLIC API ==========
   addCameraState(sectionId, position, target, fov = 35) {
     this.cameraStates[sectionId] = {
       position: new THREE.Vector3(position.x, position.y, position.z),
@@ -480,6 +483,7 @@ export default class Controls {
     this.setupScrollTriggers();
   }
 
+  // ========== LIFECYCLE ==========
   destroy() {
     if (this.animationTimeout) clearTimeout(this.animationTimeout);
     if (this.idleTimeout) clearTimeout(this.idleTimeout);

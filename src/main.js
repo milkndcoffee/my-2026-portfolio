@@ -1,31 +1,33 @@
 import "./style.css";
 import Navigation from "./experience/navigation.js";
 import RollingBackground from "./rolling-background.js";
-import MobileNavigation from "./mobile-nav.js"; // Note: default import, no curly braces
+import MobileNavigation from "./mobile-nav.js";
 
+// ========== GLOBAL INSTANCES ==========
 let rollingBackground;
-let mobileNav; // Store instance if needed
+let mobileNav;
 
+// ========== DOM READY INITIALIZATION ==========
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM loaded");
 
-  // Initialize rolling background FIRST
+  // Initialize rolling background FIRST (background layer)
   rollingBackground = new RollingBackground();
   console.log("Rolling background initialized");
 
-  // Initialize navigation BEFORE experience
+  // Initialize navigation BEFORE experience (UI layer)
   const navigation = new Navigation();
   console.log("Navigation initialized");
 
-  // Initialize mobile navigation
-  mobileNav = new MobileNavigation(); // Creates instance, auto-initializes
+  // Initialize mobile navigation (mobile UI layer)
+  mobileNav = new MobileNavigation();
   console.log("Mobile navigation initialized");
 
-  // Store for debugging
+  // Store instances for debugging
   window.navigation = navigation;
-  window.mobileNav = mobileNav; // Optional: store for debugging
+  window.mobileNav = mobileNav;
 
-  // Load experience
+  // Dynamically load Three.js experience (3D layer)
   import("./experience/experience.js").then(({ default: Experience }) => {
     console.log("Experience dynamically imported");
     const canvas = document.querySelector(".experience-canvas");
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Handle page visibility change
+// ========== PAGE VISIBILITY HANDLING ==========
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") {
     console.log("Page is visible again");
@@ -47,7 +49,7 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-// Export for debugging
-window.Navigation = Navigation;
-window.RollingBackground = RollingBackground;
-window.MobileNavigation = MobileNavigation;
+// ========== DEBUGGING EXPORTS ==========
+// window.Navigation = Navigation;
+// window.RollingBackground = RollingBackground;
+// window.MobileNavigation = MobileNavigation;

@@ -8,9 +8,9 @@ class MobileNavigation {
     this.init();
   }
 
+  // ========== INITIALIZATION ==========
   init() {
     if (!this.mobileToggle || !this.navbarContainer) return;
-
     this.bindEvents();
   }
 
@@ -45,6 +45,7 @@ class MobileNavigation {
     });
   }
 
+  // ========== NAVIGATION CONTROLS ==========
   toggleMobileNav() {
     this.navbarContainer.classList.toggle("mobile-expanded");
     this.mobileToggle.classList.toggle("active");
@@ -81,6 +82,7 @@ class MobileNavigation {
     this.ensureActiveCardIsFront();
   }
 
+  // ========== CARD MANAGEMENT ==========
   ensureActiveCardIsFront() {
     // Find the active nav item
     const activeItem = document.querySelector(".nav-item.active");

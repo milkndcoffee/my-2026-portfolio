@@ -1,4 +1,3 @@
-// src/experience/navigation.js
 export default class Navigation {
   constructor() {
     this.navbarMain = document.querySelector(".navbar-main");
@@ -8,7 +7,6 @@ export default class Navigation {
     this.secondaryNavItems = document.querySelectorAll(
       ".navbar-secondary .nav-item",
     );
-    // Remove navToggle reference
     this.cardsContainer = document.querySelector(".navbar-cards-container");
     this.shuffleButton = document.getElementById("shuffleNav");
     this.isShuffled = false;
@@ -24,6 +22,7 @@ export default class Navigation {
     this.updateActiveOnScroll();
   }
 
+  // ========== INITIALIZATION ==========
   init() {
     // Set active nav item on click
     this.navItems.forEach((item) => {
@@ -41,8 +40,6 @@ export default class Navigation {
       });
     }
 
-    // Remove mobile toggle event listener
-
     // Handle window resize
     window.addEventListener("resize", () => {
       this.handleResize();
@@ -53,7 +50,7 @@ export default class Navigation {
       this.updateActiveOnScroll();
     });
 
-    // Close shuffle on click outside (optional)
+    // Close shuffle on click outside
     document.addEventListener("click", (e) => {
       if (
         this.isShuffled &&
@@ -71,6 +68,7 @@ export default class Navigation {
     setTimeout(() => this.updateActiveOnScroll(), 100);
   }
 
+  // ========== CARD SHUFFLING ==========
   toggleShuffle(animate = true) {
     const isSecondaryFront = this.navbarSecondary.classList.contains("front");
 
@@ -101,6 +99,7 @@ export default class Navigation {
     this.updatePointerEvents();
   }
 
+  // ========== UI UPDATES ==========
   updatePointerEvents() {
     const isMainFront = this.navbarMain.classList.contains("front");
     const isSecondaryFront = this.navbarSecondary.classList.contains("front");
@@ -127,6 +126,7 @@ export default class Navigation {
     }, 500);
   }
 
+  // ========== SECTION NAVIGATION ==========
   scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -139,8 +139,7 @@ export default class Navigation {
     }
   }
 
-  // Remove toggleMobileMenu method entirely
-
+  // ========== RESPONSIVE HANDLING ==========
   handleResize() {
     if (window.innerWidth > 768) {
       // Desktop: reset any mobile states
@@ -154,21 +153,10 @@ export default class Navigation {
         const text = item.querySelector(".nav-text");
         if (text) text.style.display = "block";
       });
-      // } else {
-      //   // Mobile: handle text display based on expanded state
-      //   const isExpanded =
-      //     this.cardsContainer.classList.contains("mobile-expanded");
-      //   this.navItems.forEach((item) => {
-      //     const text = item.querySelector(".nav-text");
-      //     if (text && !isExpanded && !item.classList.contains("main-home")) {
-      //       text.style.display = "none";
-      //     } else if (text) {
-      //       text.style.display = "block";
-      //     }
-      //   });
     }
   }
 
+  // ========== SCROLL DETECTION ==========
   updateActiveOnScroll() {
     const scrollMiddle = window.scrollY + window.innerHeight / 2;
 

@@ -9,10 +9,13 @@ import { TextureLoader } from "three";
 export default class Resources extends EventEmitter {
   constructor(assets) {
     super();
+
+    // ========== INITIALIZATION ==========
     this.emit("progress", 0);
 
     Resources.instanceCount++;
     console.log(`Resources instance #${Resources.instanceCount} created`);
+
     this.experience = Experience.instance;
     this.assets = assets;
 
@@ -23,10 +26,14 @@ export default class Resources extends EventEmitter {
     console.log(`Resources constructor - ${this.queue} assets to load`);
     console.log("Assets:", this.assets);
 
+    // ========== SETUP LOADERS ==========
     this.setLoaders();
+
+    // ========== START LOADING ==========
     this.startLoading();
   }
 
+  // ========== LOADER CONFIGURATION ==========
   setLoaders() {
     this.loaders = {};
 
@@ -48,8 +55,10 @@ export default class Resources extends EventEmitter {
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
   }
 
+  // ========== LOADING CONTROLLER ==========
   startLoading() {
     console.log(`Loading ${this.queue} assets...`);
+
     // Debug: Log each asset being loaded
     for (const asset of this.assets) {
       console.log(`Will load: ${asset.name} from ${asset.path}`);
@@ -84,6 +93,7 @@ export default class Resources extends EventEmitter {
     }
   }
 
+  // ========== GLTF LOADING ==========
   loadGLTF(asset) {
     console.log(`Starting loadGLTF for ${asset.name}...`);
 
@@ -91,26 +101,8 @@ export default class Resources extends EventEmitter {
       asset.path,
       (file) => {
         console.log(`✅ Successfully loaded ${asset.name}`);
-
-        // DEBUG: Log the ENTIRE structure
-        console.log("=== GLTF FILE STRUCTURE ===");
-        console.log("File object:", file);
-        console.log("File keys:", Object.keys(file));
-        console.log("File.scene:", file.scene);
-        console.log("File.parser:", file.parser);
-        console.log("File.animations:", file.animations);
-        console.log("File.cameras:", file.cameras);
-        console.log("File.scenes:", file.scenes);
-        console.log("File.asset:", file.asset);
-        console.log("File.userData:", file.userData);
-        console.log("=== END STRUCTURE ===");
-
-        // Check if it has scenes array
-        if (file.scenes && file.scenes.length > 0) {
-          console.log(`Found ${file.scenes.length} scenes, using first one`);
-          // Some GLTF loaders return scenes array instead of .scene
-          file.scene = file.scenes[0];
-        }
+        this.debugGLTFStructure(file);
+        this.ensureSceneProperty(file);
         this.singleAssetLoaded(asset, file);
       },
       (progress) => {
@@ -133,6 +125,31 @@ export default class Resources extends EventEmitter {
     );
   }
 
+  debugGLTFStructure(file) {
+    // DEBUG: Log the ENTIRE structure
+    console.log("=== GLTF FILE STRUCTURE ===");
+    console.log("File object:", file);
+    console.log("File keys:", Object.keys(file));
+    console.log("File.scene:", file.scene);
+    console.log("File.parser:", file.parser);
+    console.log("File.animations:", file.animations);
+    console.log("File.cameras:", file.cameras);
+    console.log("File.scenes:", file.scenes);
+    console.log("File.asset:", file.asset);
+    console.log("File.userData:", file.userData);
+    console.log("=== END STRUCTURE ===");
+  }
+
+  ensureSceneProperty(file) {
+    // Check if it has scenes array
+    if (file.scenes && file.scenes.length > 0) {
+      console.log(`Found ${file.scenes.length} scenes, using first one`);
+      // Some GLTF loaders return scenes array instead of .scene
+      file.scene = file.scenes[0];
+    }
+  }
+
+  // ========== FBX LOADING ==========
   loadFBX(asset) {
     this.loaders.fbxLoader.load(
       asset.path,
@@ -151,18 +168,13 @@ export default class Resources extends EventEmitter {
     );
   }
 
+  // ========== TEXTURE LOADING ==========
   loadTexture(asset) {
     this.loaders.textureLoader.load(
       asset.path,
       (texture) => {
         console.log(`Loaded texture: ${asset.name}`);
-
-        // Configure texture
-        texture.flipY = false;
-        texture.encoding = THREE.SRGBColorSpace;
-        texture.minFilter = THREE.LinearFilter;
-        texture.magFilter = THREE.LinearFilter;
-
+        this.configureTexture(texture);
         this.singleAssetLoaded(asset, texture);
       },
       undefined,
@@ -173,6 +185,14 @@ export default class Resources extends EventEmitter {
     );
   }
 
+  configureTexture(texture) {
+    texture.flipY = false;
+    texture.encoding = THREE.SRGBColorSpace;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+  }
+
+  // ========== CUBE TEXTURE LOADING ==========
   loadCubeTexture(asset) {
     this.loaders.cubeTextureLoader.load(
       asset.path,
@@ -188,7 +208,14 @@ export default class Resources extends EventEmitter {
     );
   }
 
+  // ========== VIDEO TEXTURE LOADING ==========
   loadVideoTexture(asset) {
+    const video = this.createVideoElement(asset);
+    const videoTexture = this.createVideoTexture(video);
+    this.singleAssetLoaded(asset, videoTexture);
+  }
+
+  createVideoElement(asset) {
     const video = document.createElement("video");
     video.src = asset.path;
     video.muted = true;
@@ -196,16 +223,19 @@ export default class Resources extends EventEmitter {
     video.autoplay = true;
     video.loop = true;
     video.play();
+    return video;
+  }
 
+  createVideoTexture(video) {
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.flipY = false;
     videoTexture.colorSpace = THREE.SRGBColorSpace;
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
-
-    this.singleAssetLoaded(asset, videoTexture);
+    return videoTexture;
   }
 
+  // ========== ASSET TRACKING ==========
   singleAssetLoaded(asset, file) {
     this.items[asset.name] = file;
     this.loaded++;

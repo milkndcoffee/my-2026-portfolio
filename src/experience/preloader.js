@@ -6,12 +6,31 @@ export default class Preloader extends EventEmitter {
   constructor() {
     super();
 
+    // ========== DEPENDENCIES ==========
     this.experience = Experience.instance;
     this.scene = this.experience.scene;
     this.sizes = this.experience.sizes;
     this.resources = this.experience.resources;
     this.world = this.experience.world;
 
+    // ========== DOM ELEMENTS ==========
+    this.getDOMElements();
+
+    // ========== INITIAL STATE ==========
+    this.loaded = 0;
+    this.total = this.resources.queue;
+    this.isWorldReady = false;
+    this.isIntroPlayed = false;
+
+    console.log(`Preloader: Loading ${this.total} assets`);
+
+    // ========== EVENT LISTENERS ==========
+    this.setResourceListeners();
+    this.setWorldListener();
+  }
+
+  // ========== DOM SETUP ==========
+  getDOMElements() {
     // Get DOM elements
     this.loadingScreen = document.querySelector(".loading-screen");
     this.progressBar = document.querySelector(".progress-bar");
@@ -23,23 +42,6 @@ export default class Preloader extends EventEmitter {
       console.warn("Loading screen element not found in DOM");
       this.createLoadingScreen();
     }
-
-    // Set initial state
-    this.loaded = 0;
-    this.total = this.resources.queue;
-    this.isWorldReady = false;
-    this.isIntroPlayed = false;
-
-    console.log(`Preloader: Loading ${this.total} assets`);
-
-    // Listen for resource progress
-    this.setResourceListeners();
-
-    // Listen for world ready
-    this.world.on("worldready", () => {
-      this.isWorldReady = true;
-      this.checkIfComplete();
-    });
   }
 
   createLoadingScreen() {
@@ -63,6 +65,7 @@ export default class Preloader extends EventEmitter {
     this.loadingText = this.loadingScreen.querySelector(".loading-text");
   }
 
+  // ========== EVENT LISTENERS ==========
   setResourceListeners() {
     // Update progress as resources load
     this.resources.on("progress", (progress) => {
@@ -77,6 +80,15 @@ export default class Preloader extends EventEmitter {
     });
   }
 
+  setWorldListener() {
+    // Listen for world ready
+    this.world.on("worldready", () => {
+      this.isWorldReady = true;
+      this.checkIfComplete();
+    });
+  }
+
+  // ========== PROGRESS TRACKING ==========
   updateProgress(percentage) {
     const progress = Math.min(percentage, 100);
 
@@ -91,19 +103,24 @@ export default class Preloader extends EventEmitter {
     }
 
     // Update loading text based on progress
-    if (this.loadingText) {
-      if (progress < 30) {
-        this.loadingText.textContent = "Loading model...";
-      } else if (progress < 70) {
-        this.loadingText.textContent = "Loading textures...";
-      } else if (progress < 100) {
-        this.loadingText.textContent = "Finalizing...";
-      }
-    }
+    this.updateLoadingMessage(progress);
 
     console.log(`Loading: ${progress}%`);
   }
 
+  updateLoadingMessage(progress) {
+    if (!this.loadingText) return;
+
+    if (progress < 30) {
+      this.loadingText.textContent = "Loading model...";
+    } else if (progress < 70) {
+      this.loadingText.textContent = "Loading textures...";
+    } else if (progress < 100) {
+      this.loadingText.textContent = "Finalizing...";
+    }
+  }
+
+  // ========== COMPLETION CHECK ==========
   checkIfComplete() {
     // Only proceed if world is ready
     if (this.isWorldReady && !this.isIntroPlayed) {
@@ -112,6 +129,7 @@ export default class Preloader extends EventEmitter {
     }
   }
 
+  // ========== ASSET SETUP ==========
   setAssets() {
     // Get references to 3D object
     if (this.world.object3D) {
@@ -123,10 +141,32 @@ export default class Preloader extends EventEmitter {
     }
   }
 
+  // ========== INTRO ANIMATION ==========
+  playIntro() {
+    this.setAssets();
+
+    // Small delay to ensure everything is ready
+    setTimeout(() => {
+      this.firstIntro();
+    }, 300);
+  }
+
   firstIntro() {
     console.log("Playing intro animation...");
 
     // Fade out loading screen
+    this.animateLoadingScreenOut();
+
+    // Play model intro animation
+    this.animateModelIntro();
+
+    // Emit event that preloader is done
+    setTimeout(() => {
+      this.emit("preloadercomplete");
+    }, 1000);
+  }
+
+  animateLoadingScreenOut() {
     GSAP.to(this.loadingScreen, {
       opacity: 0,
       duration: 1,
@@ -138,38 +178,26 @@ export default class Preloader extends EventEmitter {
         }, 500);
       },
     });
-
-    // Play your model intro animation
-    if (this.object) {
-      GSAP.from(this.object.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1.5,
-        ease: "back.out(1.7)",
-        delay: 0.2,
-      });
-
-      // Example: Fade in
-      GSAP.from(this.object.position, {
-        y: -5,
-        duration: 1,
-        ease: "power2.out",
-      });
-    }
-
-    // Emit event that preloader is done
-    setTimeout(() => {
-      this.emit("preloadercomplete");
-    }, 1000);
   }
 
-  playIntro() {
-    this.setAssets();
+  animateModelIntro() {
+    if (!this.object) return;
 
-    // Small delay to ensure everything is ready
-    setTimeout(() => {
-      this.firstIntro();
-    }, 300);
+    // Scale animation
+    GSAP.from(this.object.scale, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1.5,
+      ease: "back.out(1.7)",
+      delay: 0.2,
+    });
+
+    // Position animation (fade in)
+    GSAP.from(this.object.position, {
+      y: -5,
+      duration: 1,
+      ease: "power2.out",
+    });
   }
 }

@@ -14,10 +14,11 @@ class RollingBackground {
     this.init();
   }
 
+  // ========== INITIALIZATION ==========
   init() {
     this.createBackground();
     this.createPerspectiveWrapper();
-    this.applyDynamicStyles(); // Only applies dynamic parts
+    this.applyDynamicStyles();
     this.addToDOM();
     this.startAnimation();
   }
@@ -33,6 +34,7 @@ class RollingBackground {
     this.perspectiveWrapper.appendChild(this.background);
   }
 
+  // ========== SVG GENERATION ==========
   calculateTileSize() {
     const baseSize = 453;
     const svgSize = baseSize * this.config.svgScale;
@@ -66,23 +68,29 @@ class RollingBackground {
     return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
   }
 
+  // ========== STYLE APPLICATION ==========
   applyDynamicStyles() {
     const tileSize = this.calculateTileSize();
     const pattern = this.generateSVGPattern();
-    
+
     // Only set the dynamic properties
     this.background.style.backgroundImage = pattern;
     this.background.style.backgroundSize = `${tileSize.total}px ${tileSize.total}px`;
   }
 
+  // ========== DOM MANIPULATION ==========
   addToDOM() {
-    document.body.insertBefore(this.perspectiveWrapper, document.body.firstChild);
+    document.body.insertBefore(
+      this.perspectiveWrapper,
+      document.body.firstChild,
+    );
   }
 
   startAnimation() {
     this.background.classList.add("rolling-animation");
   }
 
+  // ========== CONFIGURATION UPDATES ==========
   updateSVGScale(scale) {
     this.config.svgScale = scale;
     this.updatePattern();
@@ -107,4 +115,3 @@ class RollingBackground {
 }
 
 export default RollingBackground;
-

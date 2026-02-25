@@ -9,23 +9,34 @@ export default class World extends EventEmitter {
   constructor() {
     super();
 
+    // ========== DEPENDENCIES ==========
     this.experience = Experience.instance;
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
     this.theme = this.experience.theme;
 
-    // When resources are ready, create the world
-    this.resources.on("ready", () => {
-      this.object3D = new Object3D();
-      this.environment = new Environment();
-      this.floor = new Floor();
-      this.controls = new Controls();
-      this.emit("worldready");
-    });
-
+    // ========== INITIALIZATION ==========
+    this.waitForResources();
   }
 
+  // ========== RESOURCE LOADING ==========
+  waitForResources() {
+    // When resources are ready, create the world
+    this.resources.on("ready", () => {
+      this.createWorld();
+      this.emit("worldready");
+    });
+  }
+
+  createWorld() {
+    this.object3D = new Object3D();
+    this.environment = new Environment();
+    this.floor = new Floor();
+    this.controls = new Controls();
+  }
+
+  // ========== RESIZE HANDLING ==========
   resize() {
     if (this.object3D && typeof this.object3D.resize === "function") {
       this.object3D.resize();
@@ -43,6 +54,7 @@ export default class World extends EventEmitter {
     console.log("World resize called");
   }
 
+  // ========== UPDATE LOOP ==========
   update() {
     if (this.object3D) {
       this.object3D.update();
