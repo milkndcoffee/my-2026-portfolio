@@ -42,7 +42,7 @@ export default class Resources extends EventEmitter {
 
     // Draco compression loader
     this.loaders.dracoLoader = new DRACOLoader();
-    this.loaders.dracoLoader.setDecoderPath("/draco/");
+    this.loaders.dracoLoader.setDecoderPath("draco/");
     this.loaders.gltfLoader.setDRACOLoader(this.loaders.dracoLoader);
 
     // FBX loader
